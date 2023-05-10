@@ -1,0 +1,22 @@
+name: Copy _framework folder
+
+on: push
+
+jobs:
+  copy-file:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Push _framework folder
+      uses: crykn/copy_folder_to_another_repo_action@v1.0.6
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        source_folder: '_framework'
+        destination_repo: 'QED-DeveloperPortal/qed-developer-portal'
+        destination_folder: '/mocks/_framework'
+        user_email: 'andrew@sitestudio.co'
+        user_name: 'sitestudio'
+        commit_msg: '[GHA] Update mockportal _framework files.'
