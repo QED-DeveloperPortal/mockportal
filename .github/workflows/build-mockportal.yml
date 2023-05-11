@@ -2,7 +2,7 @@ name: Build mockportal
 
 env:
   dotnet_version: 6.0.x
-  project_name: "TreeView/Blazor.TreeView.csproj"
+  project_name: "MockPortal_ClientSide/MockPortal_ClientSide.csproj"
 
 on:
   push:
