@@ -34,7 +34,7 @@ jobs:
       with:
         source_folder: '/home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Release/net6.0/wwwroot/_framework'
         destination_repo: 'QED-DeveloperPortal/qed-developer-portal'
-        destination_folder: '/mocks/_framework'
+        destination_folder: 'mocks/_framework'
         user_email: 'andrew@sitestudio.co'
         user_name: 'sitestudio'
         commit_msg: '[GHA] Update mockportal _framework files.'
