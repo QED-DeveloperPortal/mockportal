@@ -9,7 +9,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: ListFolderContents
-      run: ls -la /home/runner/work/mockportal/mockportal
+      run: ls -la /home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Debug/net6.0/wwwroot/_framework
     - name: Push _framework folder
       uses: crykn/copy_folder_to_another_repo_action@v1.0.6
       env:
