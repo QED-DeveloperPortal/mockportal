@@ -9,13 +9,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: ListFolderContents
-      run: ls -la /home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Debug/net6.0/wwwroot/_framework
+      run: ls -la /home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Release/net6.0/wwwroot/_framework
     - name: Push _framework folder
       uses: crykn/copy_folder_to_another_repo_action@v1.0.6
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
       with:
-        source_folder: '_framework'
+        source_folder: '/home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Release/net6.0/wwwroot/_framework'
         destination_repo: 'QED-DeveloperPortal/qed-developer-portal'
         destination_folder: '/mocks/_framework'
         user_email: 'andrew@sitestudio.co'
