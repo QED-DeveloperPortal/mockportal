@@ -30,7 +30,7 @@ jobs:
     - name: Push _framework folder
       uses: crykn/copy_folder_to_another_repo_action@v1.0.6
       env:
-        API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN  }}
+        API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
       with:
         source_folder: '/home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Release/net6.0/wwwroot/_framework'
         destination_repo: 'QED-DeveloperPortal/qed-developer-portal'
