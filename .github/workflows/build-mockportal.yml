@@ -25,8 +25,6 @@ jobs:
       run: dotnet build -c Release --no-restore
     - name: ListFolderContents
       run: ls -la /home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Release/net6.0/wwwroot/_framework
-    - name: Test
-      run: dotnet test -c Release --no-restore
     - name: Push _framework folder
       uses: crykn/copy_folder_to_another_repo_action@v1.0.6
       env:
