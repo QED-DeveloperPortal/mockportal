@@ -371,7 +371,7 @@
                     subLine = subLine.Substring(quotesIndex + 1);
                     quotesIndex = subLine.IndexOf("\"");
                     Console.WriteLine($"quotesIndex {quotesIndex}");
-                    url = subLine.Substring(0, quotesIndex - 1);
+                    url = subLine.Substring(0, quotesIndex);
                     //url = line.Substring(line.IndexOf(":") + 1).Trim();
                     Console.WriteLine($"url found: {url}");
 
