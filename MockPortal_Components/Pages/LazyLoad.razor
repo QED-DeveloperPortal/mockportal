@@ -43,6 +43,11 @@
         <div>Parameter 4: <input type="text" @bind="_param4" style="width: 150px;" /></div>
     </div>
 </div>
+<div>
+    <div>
+        <textarea rows="10" cols="60" name="_results" @bind="_results" placeholder="query results..."></textarea>
+    </div>
+</div>
 
 <div style="margin:10px 0; height:400px;">
     <StandaloneCodeEditor @ref="_editor" Id="sample-code-editor-123" ConstructionOptions="EditorConstructionOptions" OnDidInit="EditorOnDidInit" OnContextMenu="OnContextMenu" CssClass="editor-class" />
@@ -67,6 +72,8 @@
     private string _param2 = "";
     private string _param3 = "";
     private string _param4 = "";
+
+    private string _results="";
 
     private class Item
     {
