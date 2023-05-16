@@ -29,6 +29,13 @@
     <button @onclick="DeleteMockFolderFile">Delete File</button>
 </div>
 
+<div style="margin:10px 0;">
+    Parameter 1: <input type="text" @bind="_param1" style="width: 150px;" />
+    Parameter 2: <input type="text" @bind="_param2" style="width: 150px;" />
+    Parameter 3: <input type="text" @bind="_param3" style="width: 150px;" />
+    Parameter 4: <input type="text" @bind="_param4" style="width: 150px;" />
+</div>
+
 <div style="margin:10px 0; height:400px;">
     <StandaloneCodeEditor @ref="_editor" Id="sample-code-editor-123" ConstructionOptions="EditorConstructionOptions" OnDidInit="EditorOnDidInit" OnContextMenu="OnContextMenu" CssClass="editor-class" />
 </div>
@@ -48,6 +55,11 @@
     private string _folderName = "";
     private string _statusMessage = "";
 
+    private string _param1 = "";
+    private string _param2 = "";
+    private string _param3 = "";
+    private string _param4 = "";
+    
     private class Item
     {
         public string Self { get; set; }
