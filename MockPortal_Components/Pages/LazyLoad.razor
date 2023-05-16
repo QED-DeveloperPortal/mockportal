@@ -1,6 +1,9 @@
 @page "/lazy"
 @using System.Net.Http;
 @using System.Net.Http.Json;
+@using System.IO;
+@using System.Text.Json;
+@using System.Text.Json.Nodes;
 @inject HttpClient Http
 
 <h4>Default loading template</h4>
@@ -58,6 +61,8 @@
 </div>
 
 @code {
+    const string apiBaseUrl = "https://mockaco.azurewebsites.net/";
+
     private string selectedItem;
 
     private List<Item> SelectedValues = new List<Item>();
@@ -108,7 +113,7 @@
         else if (item.Level == 0)
         {
             Console.WriteLine("item.Level == 0");
-            using var response = await Http.GetAsync($"https://mockaco.azurewebsites.net/__getmockfolderfiles/?folderName={item.Self}");
+            using var response = await Http.GetAsync($"{apiBaseUrl}__getmockfolderfiles/?folderName={item.Self}");
             var results = await response.Content.ReadFromJsonAsync<string[]>();
 
             var items = new List<Item>();
@@ -252,7 +257,7 @@
                 _folderName = item.Parent;
                 _fileName = item.Self;
 
-                using var response = await Http.GetAsync($@"https://mockaco.azurewebsites.net/__getmockfolderfilecontents?folderName={_folderName}&fileName={_fileName}");
+                using var response = await Http.GetAsync($@"{apiBaseUrl}__getmockfolderfilecontents?folderName={_folderName}&fileName={_fileName}");
                 var contents = await response.Content.ReadFromJsonAsync<string>();
 
                 await _editor.SetValue(contents);
@@ -279,7 +284,7 @@
                 { "contents", fileContent }
             };
 
-            using var response = await Http.PostAsJsonAsync("https://mockaco.azurewebsites.net/__savemockfolderfile", fileDetails);
+            using var response = await Http.PostAsJsonAsync($"{apiBaseUrl}__savemockfolderfile", fileDetails);
 
             Console.WriteLine(response.StatusCode.ToString());
         }
@@ -297,7 +302,7 @@
 
             if (!string.IsNullOrEmpty(_folderName))
             {
-                var response = await Http.DeleteAsync($"https://mockaco.azurewebsites.net/__deletemockfolderfile?folderName={_folderName}&fileName={_fileName}");
+                var response = await Http.DeleteAsync($"{apiBaseUrl}__deletemockfolderfile?folderName={_folderName}&fileName={_fileName}");
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -319,6 +324,16 @@
         {
             Console.WriteLine($"TestParameters: 1 {_param1}, 2 {_param2}, 3 {_param3}, 4 {_param4}");
 
+            var fullFileName = $"./Mocks/qsms2/{_fileName}";
+            Console.WriteLine($"fullFileName {fullFileName}");
+
+            var url = GetUrl(fullFileName);
+            var combinedUrl = $"{apiBaseUrl}/{url}";
+            Console.WriteLine($"{combinedUrl}");
+            //using var response = await Http.GetAsync($"{apiBaseUrl}/{url}");
+
+            //var results = await response.Content.ReadFromJsonAsync<string>();
+            //_results = results;
         }
         catch (Exception ex)
         {
@@ -326,13 +341,40 @@
         }
     }
 
+    private string GetUrl(string filePath)
+    {
+        var url = "";
+
+        try
+        {
+        using (StreamReader r = new StreamReader($"{filePath}"))
+        {
+            string json = r.ReadToEnd();
+            
+            dynamic obj = JsonNode.Parse(json);
+            url = (string)obj["request"]["route"];
+
+            Console.WriteLine($"URL Value: {url}");
+
+            //List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
+        }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception in GetUrl {ex.Message}");
+        }
+
+        return url;
+    }
+
+
     private async Task SaveMockFolder()
     {
         try
         {
             Console.WriteLine("Save Mock Folder");
 
-            using var response = await Http.PostAsJsonAsync("http://mockaco.azurewebsites.net/__savemockfolder", _folderName);
+            using var response = await Http.PostAsJsonAsync($"{apiBaseUrl}__savemockfolder", _folderName);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -351,7 +393,7 @@
     {
         Console.WriteLine("Delete Mock Folder");
 
-        var response = await Http.DeleteAsync($"https://mockaco.azurewebsites.net/__deletemockfolder?foldername={_folderName}");
+        var response = await Http.DeleteAsync($"{apiBaseUrl}__deletemockfolder?foldername={_folderName}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -371,7 +413,7 @@
         {
             Console.WriteLine("Refresh Folders 1");
 
-            using var response = await Http.GetAsync($"https://mockaco.azurewebsites.net/__getmockfolders");
+            using var response = await Http.GetAsync($"{apiBaseUrl}__getmockfolders");
             Console.WriteLine($"GetMockFolders response {response.StatusCode}");
             var folders = await response.Content.ReadFromJsonAsync <List<string>>();
             if (folders == null)
