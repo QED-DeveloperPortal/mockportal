@@ -77,7 +77,7 @@
         else if (item.Level == 0)
         {
             Console.WriteLine("item.Level == 0");
-            using var response = await Http.GetAsync($"http://127.0.0.1:5010/__getmockfolderfiles/?folderName={item.Self}");
+            using var response = await Http.GetAsync($"https://mockaco.azurewebsites.net/__getmockfolderfiles/?folderName={item.Self}");
             var results = await response.Content.ReadFromJsonAsync<string[]>();
 
             var items = new List<Item>();
@@ -195,12 +195,6 @@
             Console.WriteLine("ONLOADSTART");
 
             await RefreshFolders();
-
-            //using var response = await Http.GetAsync("http://localhost:5010/__getmockfiles");
-
-            //var results = await response.Content.ReadAsStringAsync();
-            //Console.WriteLine(response.StatusCode.ToString());
-            //Console.WriteLine(results);
         }
         catch (Exception ex)
         {
@@ -225,7 +219,7 @@
                 _folderName = item.Parent;
                 _fileName = item.Self;
 
-                using var response = await Http.GetAsync($@"http://127.0.0.1:5010/__getmockfolderfilecontents?folderName={_folderName}&fileName={_fileName}");
+                using var response = await Http.GetAsync($@"https://mockaco.azurewebsites.net/__getmockfolderfilecontents?folderName={_folderName}&fileName={_fileName}");
                 var contents = await response.Content.ReadFromJsonAsync<string>();
 
                 await _editor.SetValue(contents);
@@ -311,7 +305,7 @@
     {
         Console.WriteLine("Delete Mock Folder");
 
-        var response = await Http.DeleteAsync($"http://127.0.0.1:5010/__deletemockfolder?foldername={_folderName}");
+        var response = await Http.DeleteAsync($"https://mockaco.azurewebsites.net/__deletemockfolder?foldername={_folderName}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -331,7 +325,7 @@
         {
             Console.WriteLine("Refresh Folders 1");
 
-            using var response = await Http.GetAsync($"http://127.0.0.1:5010/__getmockfolders");
+            using var response = await Http.GetAsync($"https://mockaco.azurewebsites.net/__getmockfolders");
             var folders = await response.Content.ReadFromJsonAsync <List<string>>();
             //_rootItem.Clear();
             Console.WriteLine("Refresh Folders 2");
