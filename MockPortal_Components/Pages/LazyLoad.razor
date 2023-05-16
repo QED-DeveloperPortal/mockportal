@@ -252,7 +252,7 @@
                 { "contents", fileContent }
             };
 
-            using var response = await Http.PostAsJsonAsync("http://localhost:5010/__savemockfolderfile", fileDetails);
+            using var response = await Http.PostAsJsonAsync("https://mockaco.azurewebsites.net/__savemockfolderfile", fileDetails);
 
             Console.WriteLine(response.StatusCode.ToString());
         }
@@ -270,7 +270,7 @@
 
             if (!string.IsNullOrEmpty(_folderName))
             {
-                var response = await Http.DeleteAsync($"http://127.0.0.1:5010/__deletemockfolderfile?folderName={_folderName}&fileName={_fileName}");
+                var response = await Http.DeleteAsync($"https://mockaco.azurewebsites.net/__deletemockfolderfile?folderName={_folderName}&fileName={_fileName}");
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -292,7 +292,7 @@
         {
             Console.WriteLine("Save Mock Folder");
 
-            using var response = await Http.PostAsJsonAsync("http://localhost:5010/__savemockfolder", _folderName);
+            using var response = await Http.PostAsJsonAsync("http://mockaco.azurewebsites.net/__savemockfolder", _folderName);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
