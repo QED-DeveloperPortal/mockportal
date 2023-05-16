@@ -347,20 +347,33 @@
         var url = "";
 
         Console.WriteLine($"{contents}");
-        
+
         try
         {
         //using (StreamReader r = new StreamReader($"{filePath}"))
         //{
            // string json = r.ReadToEnd();
             
-            dynamic obj = JsonNode.Parse(contents);
+            var lines = contents.Split("/r/n");
+            foreach (var line in lines)
+            {
+                if (line.Trim().Contains("\"route\""))
+                {
+                    Console.WriteLine("route found");
+                    url = line.Substring(line.IndexOf(":") + 1).Trim();
+                    Console.WriteLine($"url found: {url}");
+
+                    return url;
+                }
+            }
+
+            /*dynamic obj = JsonNode.Parse(contents);
             Console.WriteLine("obj1 created");
             var request = (string)obj["request"];
             Console.WriteLine("request");
             dynamic obj2 = JsonNode.Parse(obj);
             Console.WriteLine("obj2 created");
-            url = (string)obj2["route"];
+            url = (string)obj2["route"];*/
 
             Console.WriteLine($"URL Value: {url}");
 
