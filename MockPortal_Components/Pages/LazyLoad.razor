@@ -332,6 +332,11 @@
             using var response = await Http.GetAsync($"https://mockaco.azurewebsites.net/__getmockfolders");
             Console.WriteLine($"GetMockFolders response {response.StatusCode}");
             var folders = await response.Content.ReadFromJsonAsync <List<string>>();
+            Console.WriteLine($"FoldersCount: {folders.Count}");
+            foreach (var f in folders)
+            {
+                Console.WriteLine($"{f}");
+            }
             //_rootItem.Clear();
             Console.WriteLine("Refresh Folders 2");
 
