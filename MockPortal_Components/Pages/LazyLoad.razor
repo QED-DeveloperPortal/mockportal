@@ -327,7 +327,8 @@
             var fullFileName = $"./Mocks/qsms2/{_fileName}";
             Console.WriteLine($"fullFileName {fullFileName}");
 
-            var url = GetUrl(fullFileName);
+            //var url = GetUrl(fullFileName);
+            var url = GetUrl(await _editor.GetValue());
             var combinedUrl = $"{apiBaseUrl}/{url}";
             Console.WriteLine($"{combinedUrl}");
             //using var response = await Http.GetAsync($"{apiBaseUrl}/{url}");
@@ -341,23 +342,22 @@
         }
     }
 
-    private string GetUrl(string filePath)
+    private string GetUrl(string contents)
     {
         var url = "";
 
         try
         {
-        using (StreamReader r = new StreamReader($"{filePath}"))
-        {
-            string json = r.ReadToEnd();
+        //using (StreamReader r = new StreamReader($"{filePath}"))
+        //{
+           // string json = r.ReadToEnd();
             
-            dynamic obj = JsonNode.Parse(json);
+            dynamic obj = JsonNode.Parse(contents);
             url = (string)obj["request"]["route"];
 
             Console.WriteLine($"URL Value: {url}");
 
             //List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
-        }
         }
         catch (Exception ex)
         {
