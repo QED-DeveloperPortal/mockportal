@@ -360,7 +360,19 @@
                 if (line.Trim().Contains("\"route\""))
                 {
                     Console.WriteLine($"route found on line: {line}");
-                    url = line.Substring(line.IndexOf(":") + 1).Trim();
+                    var routeStart = line.IndexOf("\"route\"");
+                    Console.WriteLine($"routeStart {routeStart}");
+                    var subLine = line.Substring(routeStart + "\"route\"".Length);
+                    var colonIndex = subLine.IndexOf(":");
+                    Console.WriteLine($"colonIndex {colonIndex}");
+                    subLine = subLine.Substring(colonIndex + 1).Trim();
+                    var quotesIndex = subLine.IndexOf("\"");
+                    Console.WriteLine($"quotesIndex {quotesIndex}");
+                    subLine = subLine.Substring(quotesIndex + 1);
+                    quotesIndex = subLine.IndexOf("\"");
+                    Console.WriteLine($"quotesIndex {quotesIndex}");
+                    url = subLine.Substring(0, quotesIndex - 1);
+                    //url = line.Substring(line.IndexOf(":") + 1).Trim();
                     Console.WriteLine($"url found: {url}");
 
                     return url;
