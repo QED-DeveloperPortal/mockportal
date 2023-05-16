@@ -359,7 +359,7 @@
             {
                 if (line.Trim().Contains("\"route\""))
                 {
-                    Console.WriteLine("route found");
+                    Console.WriteLine($"route found on line: {line}");
                     url = line.Substring(line.IndexOf(":") + 1).Trim();
                     Console.WriteLine($"url found: {url}");
 
