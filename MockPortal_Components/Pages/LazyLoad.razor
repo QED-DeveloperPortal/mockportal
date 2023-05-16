@@ -330,6 +330,7 @@
             Console.WriteLine("Refresh Folders 1");
 
             using var response = await Http.GetAsync($"https://mockaco.azurewebsites.net/__getmockfolders");
+            Console.WriteLine($"GetMockFolders response {response.StatusCode}");
             var folders = await response.Content.ReadFromJsonAsync <List<string>>();
             //_rootItem.Clear();
             Console.WriteLine("Refresh Folders 2");
