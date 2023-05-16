@@ -157,11 +157,15 @@
     private async Task<bool> HasChildrenAsync(Item item)
     {
         if (item.Level == 0) 
+        {
+            Console.WriteLine("HasChildrenAsync true");
             return true;
+        }
         else
+        {
+            Console.WriteLine("HasChildrenAsync false");
             return false;
-        Console.WriteLine("HasChildrenAsync");
-        //return (item.Self.Length < 100);
+        }
     }
 
     private string GetParent(string item)
