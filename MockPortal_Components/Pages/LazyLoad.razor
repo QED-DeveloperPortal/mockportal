@@ -353,7 +353,12 @@
            // string json = r.ReadToEnd();
             
             dynamic obj = JsonNode.Parse(contents);
-            url = (string)obj["request"]["route"];
+            Console.WriteLine("obj1 created");
+            var request = (string)obj["request"];
+            Console.WriteLine("request");
+            dynamic obj2 = JsonNode.Parse(obj);
+            Console.WriteLine("obj2 created");
+            url = (string)obj2["route"];
 
             Console.WriteLine($"URL Value: {url}");
 
