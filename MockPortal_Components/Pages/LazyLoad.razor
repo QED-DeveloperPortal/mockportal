@@ -372,6 +372,7 @@
                         pValue = p4;
                         break;
                 }
+                Console.WriteLine($"finalUrl.Length {finalUrl.Length} closingBracketIndex {closingBracketIndex}");
                 if (finalUrl.Length == closingBracketIndex)
                 {
                     finalUrl = $"{finalUrl.Substring(0, openingBracketIndex)}{pValue}";
