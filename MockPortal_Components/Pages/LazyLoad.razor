@@ -329,7 +329,8 @@
 
             //var url = GetUrl(fullFileName);
             var url = GetUrl(await _editor.GetValue());
-            var combinedUrl = $"{apiBaseUrl}/{url}";
+            var urlWithParams = ParameteriseUrl(url, _param1, _param2, _param3, _param4);
+            var combinedUrl = $"{apiBaseUrl}/{urlWithParams}";
             Console.WriteLine($"{combinedUrl}");
             //using var response = await Http.GetAsync($"{apiBaseUrl}/{url}");
 
@@ -340,6 +341,42 @@
         {
             Console.WriteLine($"Exception in TestParameters: {ex.Message}");
         }
+    }
+
+    private string ParameteriseUrl(string url, string p1, string p2, string p3, string p4)
+    {
+        var finalUrl = url;
+
+        var openingBracketIndex = 0;
+        var pIndex = 0;
+        var pValue = "";
+        while (openingBracketIndex != -1)
+        {
+            pIndex++;
+            openingBracketIndex = finalUrl.IndexOf('{', openingBracketIndex + 1);
+            if (openingBracketIndex != -1)
+            {
+                var closingBracketIndex = finalUrl.IndexOf('}', openingBracketIndex);
+                switch(pIndex)
+                {
+                    case 1:
+                        pValue = p1;
+                        break;
+                    case 2:
+                        pValue = p2;
+                        break;
+                    case 3:
+                        pValue = p3;
+                        break;
+                    case 4:
+                        pValue = p4;
+                        break;
+                }
+                finalUrl = $"{finalUrl.Substring(0, openingBracketIndex)}{pValue}{finalUrl.Substring(closingBracketIndex)}";
+            }
+        }
+
+        return finalUrl;
     }
 
     private string GetUrl(string contents)
@@ -372,7 +409,6 @@
                     quotesIndex = subLine.IndexOf("\"");
                     Console.WriteLine($"quotesIndex {quotesIndex}");
                     url = subLine.Substring(0, quotesIndex);
-                    //url = line.Substring(line.IndexOf(":") + 1).Trim();
                     Console.WriteLine($"url found: {url}");
 
                     return url;
