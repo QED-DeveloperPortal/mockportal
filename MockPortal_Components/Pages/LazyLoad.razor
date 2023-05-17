@@ -334,11 +334,12 @@
             Console.WriteLine($"{combinedUrl}");
             using var response = await Http.GetAsync($"{combinedUrl}");
             Console.WriteLine($"response.StatusCode {response.StatusCode}");
-            var results = await response.Content.ReadFromJsonAsync<string>();
+            //var results = await response.Content.ReadFromJsonAsync<string>();
+            var results = await response.Content.ReadAsStringAsync();
             Console.WriteLine("=========================");
             Console.WriteLine($"results: {results}");
             Console.WriteLine("=========================");
-            
+
             _results = results;
         }
         catch (Exception ex)
