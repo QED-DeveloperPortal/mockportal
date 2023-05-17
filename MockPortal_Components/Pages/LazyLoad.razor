@@ -372,7 +372,14 @@
                         pValue = p4;
                         break;
                 }
-                finalUrl = $"{finalUrl.Substring(0, openingBracketIndex)}{pValue}{finalUrl.Substring(closingBracketIndex)}";
+                if (finalUrl.Length == closingBracketIndex)
+                {
+                    finalUrl = $"{finalUrl.Substring(0, openingBracketIndex)}{pValue}";
+                }
+                else
+                {
+                    finalUrl = $"{finalUrl.Substring(0, openingBracketIndex)}{pValue}{finalUrl.Substring(closingBracketIndex)}";
+                }
             }
         }
 
