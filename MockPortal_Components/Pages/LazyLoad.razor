@@ -330,12 +330,16 @@
             //var url = GetUrl(fullFileName);
             var url = GetUrl(await _editor.GetValue());
             var urlWithParams = ParameteriseUrl(url, _param1, _param2, _param3, _param4);
-            var combinedUrl = $"{apiBaseUrl}/{urlWithParams}";
+            var combinedUrl = $"{apiBaseUrl}{urlWithParams}";
             Console.WriteLine($"{combinedUrl}");
-            //using var response = await Http.GetAsync($"{apiBaseUrl}/{url}");
-
-            //var results = await response.Content.ReadFromJsonAsync<string>();
-            //_results = results;
+            using var response = await Http.GetAsync($"{combinedUrl}");
+            Console.WriteLine($"response.StatusCode {response.StatusCode}");
+            var results = await response.Content.ReadFromJsonAsync<string>();
+            Console.WriteLine("=========================");
+            Console.WriteLine($"results: {results}");
+            Console.WriteLine("=========================");
+            
+            _results = results;
         }
         catch (Exception ex)
         {
