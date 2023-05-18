@@ -424,6 +424,8 @@
                     url = subLine.Substring(0, quotesIndex);
                     Console.WriteLine($"url found: {url}");
 
+                    if (url.StartsWith(@"/")) url = url.Substring(1);
+
                     return url;
                 }
             }
