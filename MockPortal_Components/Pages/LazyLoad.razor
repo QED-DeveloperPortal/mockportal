@@ -342,7 +342,7 @@
 
             var requestType = GetRequestType(await _editor.GetValue());
             Console.WriteLine($"requestType.ToLowerInvariant: {requestType.ToLowerInvariant()}");
-            if (requestType.ToLower().Equals("get", StringComparison.InvariantCultureIgnoreCase))
+            if (string.Equals("get", requestType.ToLower(), StringComparison.InvariantCultureIgnoreCase))
             {
                 using var response = await Http.GetAsync($"{combinedUrl}");
                 Console.WriteLine($"response.StatusCode {response.StatusCode}");
@@ -354,7 +354,7 @@
 
                 _results = results;
             }
-            else if (requestType.ToLower().Equals("put", StringComparison.InvariantCultureIgnoreCase))
+            else if (string.Equals("put", requestType.Trim().ToLower(), StringComparison.InvariantCultureIgnoreCase))
             {
                 var body = GetBody(await _editor.GetValue());
                 Console.WriteLine($"Body: {body}");
