@@ -388,7 +388,7 @@
         var closingBracketIndex = contents.IndexOf("}", openingBracketIndex);
         if (closingBracketIndex == -1) return "NONE";
 
-        body = contents.Substring(openingBracketIndex, closingBracketIndex - openingBracketIndex);
+        body = contents.Substring(openingBracketIndex, closingBracketIndex - openingBracketIndex + 1);
 
         return body;
     }
