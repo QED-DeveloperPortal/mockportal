@@ -381,22 +381,22 @@
         var body = "";
 
         var obj = JsonSerializer.Deserialize<JsonNode>(contents);
-        var request = obj["request"];
-        Console.WriteLine($"request GetType: {request.GetType()}");
+        //var request = obj["request"];
+        //Console.WriteLine($"request GetType: {request.GetType()}");
     
-        var bodyNode = request["body"];
-        Console.WriteLine($"bodyNode GetType: {bodyNode.GetType()}");
+        //var bodyNode = request["body"];
+        //Console.WriteLine($"bodyNode GetType: {bodyNode.GetType()}");
     
-        Console.WriteLine($"bodyNode: {bodyNode}");
+        //Console.WriteLine($"bodyNode: {bodyNode}");
 
-        var serialisedBodyNode = JsonSerializer.Serialize(bodyNode);
+        var serialisedBodyNode = JsonSerializer.Serialize(obj["request"]["body"]);
         Console.WriteLine($"serializedBodyNode: {serialisedBodyNode}");
-        
+
         //dynamic json = JsonSerializer.Deserialize<ExpandoObject>(contents);
         //Console.WriteLine($"request.body: {json.reqeust.body}");
 
 
-        var bodyIndex = contents.IndexOf("\"body\"");
+        /*var bodyIndex = contents.IndexOf("\"body\"");
         if (bodyIndex == -1) return "NONE";
 
         var openingBracketIndex = contents.IndexOf("{", bodyIndex);
@@ -405,9 +405,9 @@
         var closingBracketIndex = contents.IndexOf("}", openingBracketIndex);
         if (closingBracketIndex == -1) return "NONE";
 
-        body = contents.Substring(openingBracketIndex, closingBracketIndex - openingBracketIndex + 1);
+        body = contents.Substring(openingBracketIndex, closingBracketIndex - openingBracketIndex + 1);*/
 
-        return body;
+        return serialisedBodyNode;
     }
 
     private string GetRequestType(string contents)
