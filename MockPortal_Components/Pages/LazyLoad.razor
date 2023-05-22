@@ -389,6 +389,9 @@
     
         Console.WriteLine($"bodyNode: {bodyNode}");
 
+        var serialisedBodyNode = JsonSerializer.Serialize(bodyNode);
+        Console.WriteLine($"serializedBodyNode: {serialisedBodyNode}");
+        
         //dynamic json = JsonSerializer.Deserialize<ExpandoObject>(contents);
         //Console.WriteLine($"request.body: {json.reqeust.body}");
 
