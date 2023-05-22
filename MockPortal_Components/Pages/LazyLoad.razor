@@ -360,7 +360,7 @@
 
                 _results = results;
             }
-            else if (requestType.ToLowerInvariant().("put"))
+            else if (requestType.ToLowerInvariant().Contains("put"))
             {
                 var body = GetBody(await _editor.GetValue());
                 Console.WriteLine($"Body: {body}");
