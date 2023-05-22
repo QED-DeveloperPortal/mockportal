@@ -355,6 +355,8 @@
             }
             else if (requestType == "PUT")
             {
+                var body = GetBody(await _editor.GetValue());
+                Console.WriteLine($"Body: {body}");
                 using var response = await Http.PutAsync($"{combinedUrl}", new StringContent("{}"));
                 Console.WriteLine($"response.StatusCode {response.StatusCode}");
                 //var results = await response.Content.ReadFromJsonAsync<string>();
@@ -371,6 +373,24 @@
         {
             Console.WriteLine($"Exception in TestParameters: {ex.Message}");
         }
+    }
+
+    private string GetBody(string contents)
+    {
+        var body = "";
+
+        var bodyIndex = contents.IndexOf("\"body\"");
+        if (bodyIndex == -1) return "NONE";
+
+        var openingBracketIndex = contents.IndexOf("{", bodyIndex);
+        if (openingBracketIndex == -1) return "NONE";
+
+        var closingBracketIndex = contents.IndexOf("}", openingBracketIndex);
+        if (closingBracketIndex == -1) return "NONE";
+
+        body = contents.Substring(openingBracketIndex, closingBracketIndex - openingBracketIndex);
+
+        return body;
     }
 
     private string GetRequestType(string contents)
