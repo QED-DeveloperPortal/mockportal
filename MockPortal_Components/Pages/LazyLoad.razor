@@ -343,6 +343,9 @@
             var requestType = GetRequestType(await _editor.GetValue());
             var en = new System.Globalization.CultureInfo("en-US");
             var lowerRequestType = requestType.ToLowerInvariant();
+            Console.WriteLine($"lowerRequestType[0] {lowerRequestType[0]}");
+            Console.WriteLine($"lowerRequestType[1] {lowerRequestType[1]}");
+            Console.WriteLine($"lowerRequestType[2] {lowerRequestType[2]}");
             Console.WriteLine($"requestType.ToLowerInvariant: {requestType.ToLowerInvariant()}");
             Console.WriteLine($"{String.Compare("put", requestType.ToLowerInvariant(), en, System.Globalization.CompareOptions.None)}");
             if (string.Equals("get", requestType.ToLower(), StringComparison.InvariantCultureIgnoreCase))
