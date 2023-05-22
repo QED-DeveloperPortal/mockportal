@@ -382,7 +382,11 @@
 
         var obj = JsonSerializer.Deserialize<JsonNode>(contents);
         var request = obj["request"];
-        var bodyNode = request["body"].GetValue<string>();
+        Console.WriteLine($"request GetType: {request.GetType()}");
+    
+        var bodyNode = request["body"];
+        Console.WriteLine($"bodyNode GetType: {bodyNode.GetType()}");
+    
         Console.WriteLine($"bodyNode: {bodyNode}");
 
         //dynamic json = JsonSerializer.Deserialize<ExpandoObject>(contents);
