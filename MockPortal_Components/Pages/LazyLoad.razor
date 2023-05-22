@@ -369,6 +369,10 @@
 
                 _results = response.StatusCode.ToString();
             }
+            else if (requestType == "PUT")
+            {
+                Console.WriteLine("FOUND IT!!!");
+            }
             else
             {
                 Console.WriteLine($"RequestType not handled: {requestType}");
@@ -399,7 +403,7 @@
         return body;
     }
 
-    private string GetRequestType(string contents)
+    private String GetRequestType(string contents)
     {
         var requestType = "";
 
