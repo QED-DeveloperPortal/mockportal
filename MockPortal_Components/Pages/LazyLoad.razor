@@ -380,41 +380,31 @@
     {
         var body = "";
 
-        var obj = JsonSerializer.Deserialize<JsonNode>(contents);
-        //var request = obj["request"];
-        //Console.WriteLine($"request GetType: {request.GetType()}");
-    
-        //var bodyNode = request["body"];
-        //Console.WriteLine($"bodyNode GetType: {bodyNode.GetType()}");
-    
-        //Console.WriteLine($"bodyNode: {bodyNode}");
+        try
+        {
+            var obj = JsonSerializer.Deserialize<JsonNode>(contents);
+            body = JsonSerializer.Serialize(obj["request"]["body"]);
+            
+            Console.WriteLine($"GetBody: {body}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception in GetBody: {ex.Message}");
+        }
 
-        var serialisedBodyNode = JsonSerializer.Serialize(obj["request"]["body"]);
-        Console.WriteLine($"serializedBodyNode: {serialisedBodyNode}");
-
-        //dynamic json = JsonSerializer.Deserialize<ExpandoObject>(contents);
-        //Console.WriteLine($"request.body: {json.reqeust.body}");
-
-
-        /*var bodyIndex = contents.IndexOf("\"body\"");
-        if (bodyIndex == -1) return "NONE";
-
-        var openingBracketIndex = contents.IndexOf("{", bodyIndex);
-        if (openingBracketIndex == -1) return "NONE";
-
-        var closingBracketIndex = contents.IndexOf("}", openingBracketIndex);
-        if (closingBracketIndex == -1) return "NONE";
-
-        body = contents.Substring(openingBracketIndex, closingBracketIndex - openingBracketIndex + 1);*/
-
-        return serialisedBodyNode;
+        return body;
     }
 
     private string GetRequestType(string contents)
     {
+        var requestType = "";
+
         try
         {
-            var methodIndex = contents.IndexOf("method");
+            var obj = JsonSerializer.Deserialize<JsonNode>(contents);
+            requestType = JsonSerializer.Serialize(obj["request"]["method"]);
+
+            /*var methodIndex = contents.IndexOf("method");
             if (methodIndex == -1) return "NONE";
 
             var colonIndex = contents.IndexOf(":", methodIndex);
@@ -440,13 +430,78 @@
             else
             {
                 return "ERROR";
-            }
+            }*/
+
+            Console.WriteLine($"GetRequestType: {requestType}");
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Exception in GetRequestType: {ex.Message}");
             return "EXCEPTION";
         }
+
+        return requestType;
+    }
+
+    private string GetUrl(string contents)
+    {
+        var url = "";
+
+        Console.WriteLine($"GetUrl contents: {contents}");
+
+        try
+        {
+            var obj = JsonSerializer.Deserialize<JsonNode>(contents);
+            url = JsonSerializer.Serialize(obj["request"]["route"]);
+
+        //using (StreamReader r = new StreamReader($"{filePath}"))
+        //{
+           // string json = r.ReadToEnd();
+            
+            /*var lines = contents.Split("/r/n");
+            foreach (var line in lines)
+            {
+                if (line.Trim().Contains("\"route\""))
+                {
+                    Console.WriteLine($"route found on line: {line}");
+                    var routeStart = line.IndexOf("\"route\"");
+                    Console.WriteLine($"routeStart {routeStart}");
+                    var subLine = line.Substring(routeStart + "\"route\"".Length);
+                    var colonIndex = subLine.IndexOf(":");
+                    Console.WriteLine($"colonIndex {colonIndex}");
+                    subLine = subLine.Substring(colonIndex + 1).Trim();
+                    var quotesIndex = subLine.IndexOf("\"");
+                    Console.WriteLine($"quotesIndex {quotesIndex}");
+                    subLine = subLine.Substring(quotesIndex + 1);
+                    quotesIndex = subLine.IndexOf("\"");
+                    Console.WriteLine($"quotesIndex {quotesIndex}");
+                    url = subLine.Substring(0, quotesIndex);
+                    Console.WriteLine($"url found: {url}");
+
+                    if (url.StartsWith(@"/")) url = url.Substring(1);
+
+                    return url;
+                }
+            }*/
+
+            /*dynamic obj = JsonNode.Parse(contents);
+            Console.WriteLine("obj1 created");
+            var request = (string)obj["request"];
+            Console.WriteLine("request");
+            dynamic obj2 = JsonNode.Parse(obj);
+            Console.WriteLine("obj2 created");
+            url = (string)obj2["route"];*/
+
+            Console.WriteLine($"GetUrl: {url}");
+
+            //List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception in GetUrl {ex.Message}");
+        }
+
+        return url;
     }
 
     private async Task GetMockRoutes()
@@ -518,64 +573,6 @@
         }
 
         return finalUrl;
-    }
-
-    private string GetUrl(string contents)
-    {
-        var url = "";
-
-        Console.WriteLine($"GetUrl contents: {contents}");
-
-        try
-        {
-        //using (StreamReader r = new StreamReader($"{filePath}"))
-        //{
-           // string json = r.ReadToEnd();
-            
-            var lines = contents.Split("/r/n");
-            foreach (var line in lines)
-            {
-                if (line.Trim().Contains("\"route\""))
-                {
-                    Console.WriteLine($"route found on line: {line}");
-                    var routeStart = line.IndexOf("\"route\"");
-                    Console.WriteLine($"routeStart {routeStart}");
-                    var subLine = line.Substring(routeStart + "\"route\"".Length);
-                    var colonIndex = subLine.IndexOf(":");
-                    Console.WriteLine($"colonIndex {colonIndex}");
-                    subLine = subLine.Substring(colonIndex + 1).Trim();
-                    var quotesIndex = subLine.IndexOf("\"");
-                    Console.WriteLine($"quotesIndex {quotesIndex}");
-                    subLine = subLine.Substring(quotesIndex + 1);
-                    quotesIndex = subLine.IndexOf("\"");
-                    Console.WriteLine($"quotesIndex {quotesIndex}");
-                    url = subLine.Substring(0, quotesIndex);
-                    Console.WriteLine($"url found: {url}");
-
-                    if (url.StartsWith(@"/")) url = url.Substring(1);
-
-                    return url;
-                }
-            }
-
-            /*dynamic obj = JsonNode.Parse(contents);
-            Console.WriteLine("obj1 created");
-            var request = (string)obj["request"];
-            Console.WriteLine("request");
-            dynamic obj2 = JsonNode.Parse(obj);
-            Console.WriteLine("obj2 created");
-            url = (string)obj2["route"];*/
-
-            Console.WriteLine($"URL Value: {url}");
-
-            //List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Exception in GetUrl {ex.Message}");
-        }
-
-        return url;
     }
 
 
