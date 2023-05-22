@@ -343,6 +343,7 @@
             var requestType = GetRequestType(await _editor.GetValue());
             var en = new System.Globalization.CultureInfo("en-US");
             Console.WriteLine($"requestType.ToLowerInvariant: {requestType.ToLowerInvariant()}");
+            Console.WriteLine($"{String.Compare("put", requestType.ToLowerInvariant(), en, System.Globalization.CompareOptions.None)}");
             if (string.Equals("get", requestType.ToLower(), StringComparison.InvariantCultureIgnoreCase))
             {
                 using var response = await Http.GetAsync($"{combinedUrl}");
@@ -355,7 +356,7 @@
 
                 _results = results;
             }
-            else if (String.Compare("put", requestType.ToLower(), en, System.Globalization.CompareOptions.None) == 0)
+            else if (String.Compare("put", requestType.ToLowerInvariant(), en, System.Globalization.CompareOptions.None) == 0)
             //else if (string.Equals("put", requestType.Trim().ToLower(), StringComparison.InvariantCultureIgnoreCase))
             {
                 var body = GetBody(await _editor.GetValue());
