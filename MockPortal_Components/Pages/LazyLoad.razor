@@ -341,13 +341,6 @@
             Console.WriteLine($"combinedUrl: {combinedUrl}");
 
             var requestType = GetRequestType(await _editor.GetValue());
-            //var en = new System.Globalization.CultureInfo("en-US");
-            //var lowerRequestType = requestType.ToLowerInvariant();
-            //Console.WriteLine($"lowerRequestType[0] {lowerRequestType[0]}");
-            //Console.WriteLine($"lowerRequestType[1] {lowerRequestType[1]}");
-            //Console.WriteLine($"lowerRequestType[2] {lowerRequestType[2]}");
-            //Console.WriteLine($"requestType.ToLowerInvariant: {requestType.ToLowerInvariant()}");
-            //Console.WriteLine($"{String.Compare("put", requestType.ToLowerInvariant(), en, System.Globalization.CompareOptions.None)}");
             if (requestType.ToLowerInvariant().Contains("get"))
             {
                 using var response = await Http.GetAsync($"{combinedUrl}");
@@ -413,35 +406,9 @@
         {
             var obj = JsonSerializer.Deserialize<JsonNode>(contents);
             requestType = JsonSerializer.Serialize(obj["request"]["method"]);
-
-            /*var methodIndex = contents.IndexOf("method");
-            if (methodIndex == -1) return "NONE";
-
-            var colonIndex = contents.IndexOf(":", methodIndex);
-            if (colonIndex == -1) return "NONE";
-
-            var commaIndex =  contents.IndexOf(",", colonIndex);
-            if (commaIndex == -1) return "NONE";
-
-            var methodText = contents.Substring(colonIndex + 1, commaIndex - colonIndex - 1);
+            requestType = requestType.Replace("\"", "");
+            requestType = requestType.Replace("\'", "");
             
-            if (methodText.ToLowerInvariant().Contains("get"))
-            {
-                return "GET";
-            }
-            else if (methodText.ToLowerInvariant().Contains("put"))
-            {
-                return "PUT";
-            }
-            else if (methodText.ToLowerInvariant().Contains("post"))
-            {
-                return "POST";
-            }
-            else
-            {
-                return "ERROR";
-            }*/
-
             Console.WriteLine($"GetRequestType: {requestType}");
         }
         catch (Exception ex)
@@ -450,7 +417,7 @@
             return "EXCEPTION";
         }
 
-        return $"{requestType}" as String;
+        return requestType;
     }
 
     private string GetUrl(string contents)
@@ -463,44 +430,8 @@
         {
             var obj = JsonSerializer.Deserialize<JsonNode>(contents);
             url = JsonSerializer.Serialize(obj["request"]["route"]);
-
-        //using (StreamReader r = new StreamReader($"{filePath}"))
-        //{
-           // string json = r.ReadToEnd();
-            
-            /*var lines = contents.Split("/r/n");
-            foreach (var line in lines)
-            {
-                if (line.Trim().Contains("\"route\""))
-                {
-                    Console.WriteLine($"route found on line: {line}");
-                    var routeStart = line.IndexOf("\"route\"");
-                    Console.WriteLine($"routeStart {routeStart}");
-                    var subLine = line.Substring(routeStart + "\"route\"".Length);
-                    var colonIndex = subLine.IndexOf(":");
-                    Console.WriteLine($"colonIndex {colonIndex}");
-                    subLine = subLine.Substring(colonIndex + 1).Trim();
-                    var quotesIndex = subLine.IndexOf("\"");
-                    Console.WriteLine($"quotesIndex {quotesIndex}");
-                    subLine = subLine.Substring(quotesIndex + 1);
-                    quotesIndex = subLine.IndexOf("\"");
-                    Console.WriteLine($"quotesIndex {quotesIndex}");
-                    url = subLine.Substring(0, quotesIndex);
-                    Console.WriteLine($"url found: {url}");
-
-                    if (url.StartsWith(@"/")) url = url.Substring(1);
-
-                    return url;
-                }
-            }*/
-
-            /*dynamic obj = JsonNode.Parse(contents);
-            Console.WriteLine("obj1 created");
-            var request = (string)obj["request"];
-            Console.WriteLine("request");
-            dynamic obj2 = JsonNode.Parse(obj);
-            Console.WriteLine("obj2 created");
-            url = (string)obj2["route"];*/
+            url = url.Replace("\"", "");
+            url = url.Replace("\'", "");
 
             Console.WriteLine($"GetUrl: {url}");
 
