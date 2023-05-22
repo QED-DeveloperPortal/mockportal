@@ -342,7 +342,7 @@
 
             var requestType = GetRequestType(await _editor.GetValue());
             Console.WriteLine($"requestType: {requestType}");
-            if (requestType == "GET")
+            if (requestType.CompareTo("GET") == 0)
             {
                 using var response = await Http.GetAsync($"{combinedUrl}");
                 Console.WriteLine($"response.StatusCode {response.StatusCode}");
@@ -354,7 +354,7 @@
 
                 _results = results;
             }
-            else if (requestType == "PUT")
+            else if (requestType.CompareTo("PUT") == 0)
             {
                 var body = GetBody(await _editor.GetValue());
                 Console.WriteLine($"Body: {body}");
