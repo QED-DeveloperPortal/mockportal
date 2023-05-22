@@ -4,6 +4,7 @@
 @using System.IO;
 @using System.Text.Json;
 @using System.Text.Json.Nodes;
+@using System.Dynamic;
 @inject HttpClient Http
 
 <h4>Default loading template</h4>
@@ -378,6 +379,15 @@
     private string GetBody(string contents)
     {
         var body = "";
+
+        var obj = JsonSerializer.Deserialize<JsonNode>(contents);
+        var request = obj["request"];
+        var bodyNode = request["body"].GetValue<string>();
+        Console.WriteLine($"bodyNode: {bodyNode}");
+
+        //dynamic json = JsonSerializer.Deserialize<ExpandoObject>(contents);
+        //Console.WriteLine($"request.body: {json.reqeust.body}");
+
 
         var bodyIndex = contents.IndexOf("\"body\"");
         if (bodyIndex == -1) return "NONE";
