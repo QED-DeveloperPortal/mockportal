@@ -221,6 +221,12 @@
             Console.WriteLine("Save Mock File");
             var fileContent = await _editor.GetValue();
 
+            if (string.IsNullOrEmpty(fileContent))
+            {
+                _errorMessage = "No REST API content";
+                return;
+            }
+
             var fileDetails = new Dictionary<string, string>
             {
                 { "filename", _fileName },
@@ -247,17 +253,21 @@
 
             Console.WriteLine("Delete Mock Folder File");
 
-            if (!string.IsNullOrEmpty(_folderName))
+            if (string.IsNullOrEmpty(_folderName))
             {
-                var response = await Http.DeleteAsync($"{apiBaseUrl}__deletemockfolderfile?folderName={_folderName}&fileName={_fileName}");
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    _fileName = "";
-                    _folderName = "";
-                    _editor.SetValue("");
-                }
+                _errorMessage = "No folder specified to delete";
+                return;
             }
+            
+            var response = await Http.DeleteAsync($"{apiBaseUrl}__deletemockfolderfile?folderName={_folderName}&fileName={_fileName}");
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                _fileName = "";
+                _folderName = "";
+                _editor.SetValue("");
+            }
+        
         }
         catch (Exception ex)
         {
@@ -484,6 +494,12 @@
 
             Console.WriteLine("Save Mock Folder");
 
+            if (string.IsNullOrEmpty(_folderName))
+            {
+                _errorMessage = "Please specify a folder name to save";
+                return;
+            }
+
             using var response = await Http.PostAsJsonAsync($"{apiBaseUrl}__savemockfolder", _folderName);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -508,6 +524,12 @@
         {
             _errorMessage = "";
             
+            if (string.IsNullOrEmpty(_folderName))
+            {
+                _errorMessage = "No mock folder specified to delete";
+                return;
+            }
+
             var response = await Http.DeleteAsync($"{apiBaseUrl}__deletemockfolder?foldername={_folderName}");
 
             if (response.IsSuccessStatusCode)
@@ -621,20 +643,6 @@
         {
             _rootItem.Remove(item);
         }
-    }
-
-    private async Task SaveButtonClick()
-    {
-        /*HttpClient client = new HttpClient();
-        var values = new Dictionary<string, string>
-        {
-            { "username", "myUser" },
-            { "password", "myPassword" }
-        };
-
-        string url = "http://127.0.0.1:5010";
-        var data = new FormUrlEncodedContent(values);
-        var response = await client.PostAsync(url, data);*/
     }
 
     private StandaloneEditorConstructionOptions EditorConstructionOptions(StandaloneCodeEditor editor)
