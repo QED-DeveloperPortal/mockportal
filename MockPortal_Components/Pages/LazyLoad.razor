@@ -4,16 +4,13 @@
 @using System.IO;
 @using System.Text.Json;
 @using System.Text.Json.Nodes;
-@using System.Dynamic;
 @inject HttpClient Http
 
 <h4>Default loading template</h4>
 <div>
     <TreeViewAsync @key="_rootItem" GetChildrenAsync="GetChildrenAsync" HasChildrenAsync="HasChildrenAsync" AllowSelection="false" SelectedItems="SelectedItems">
         <ItemTemplate>
-            <!-- div style="background-color: @(selectedItem == context.Item.Self ? "Highlight" : "inherit")">-->
              <label @onclick="() => OnSelect(context.Item)" >@context.Item.Self</label>
-            <!--</div>-->
         </ItemTemplate>
     </TreeViewAsync>
 </div>
@@ -71,8 +68,6 @@
 
     private List<Item> SelectedItems = new List<Item>();
 
-   // private TreeView _tv = null;
-
     private StandaloneCodeEditor _editor = null!;
     private string _valueToSet = "";
     private string _fileName = "";
@@ -94,12 +89,6 @@
         public int Level { get; set; }
         public string Parent { get; set; }
     }
-
-
-    /*private class Item
-    {
-        public string Self { get; set; }
-    }*/
 
     private List<Item> _rootItem = new List<Item>();
 
@@ -137,63 +126,8 @@
             Console.WriteLine($"else {item.Self}");
             return _rootItem;
         }
+    }
 
-/*        if (item == null)
-        {
-            Console.WriteLine("Item == null");
-            var temp = new Item {Self = "hello", Level = 0 };
-            return new List<Item>(){temp};
-        }
-
-        if (!initialised || string.IsNullOrEmpty(item.Self)) return null;
-
-        if (item.Level == 0)
-        {
-            //using var response = Http.GetAsync($"http://127.0.0.1:5010/__getmockfolderfiles/?folderName={item.Self}").Result;
-            
-            using var response = await Http.GetAsync($"http://127.0.0.1:5010/__getmockfolderfiles/?folderName={item.Self}");
-            Console.WriteLine("GetChildren 2");
-            //var preResult = await response.Content.ReadFromJsonAsync<string[]>();
-            var results = await response.Content.ReadFromJsonAsync<string[]>();
-            Console.WriteLine("GetChildren 3");
-*/
-            //if (preResult.Status == TaskStatus.Faulted) return null;
-
-            /*using var response = await Http.GetAsync($"http://127.0.0.1:5010/__getmockfolders");
-            var folders = await response.Content.ReadFromJsonAsync <List<string>>();
-            //_rootItem.Clear();
-            Console.WriteLine("Refresh Folders 2");
-
-            RemoveMissingFoldersFromRootItem(folders);
-            _rootItem = await Task.Run(() =>  PopulateRootItem(folders));
-            Console.WriteLine($"Refresh Folders 3 {_rootItem.Count}");*/
-
-            //var results = preResult; //.Result;
-/*            Console.WriteLine(response.StatusCode.ToString());
-            var items = new List<Item>();
-            foreach (var result in results)
-            {
-                if (!string.IsNullOrEmpty(result.Trim()))
-                {
-                    //items.Add(new Item { Self = result, Level = 1, Parent = item.Self });
-                    items.Add(new Item { Self = result }); //, Level = 1, Parent = item.Self });
-                }
-            }
-
-            Console.WriteLine("returning items");
-            return items;
-
-            //return null;
-        }
-
-        Console.WriteLine("returning null");
-        return null;*/
-            }
-
-    //    return null;
-    //}
-
-    //private bool HasChildren(Item item)
     private async Task<bool> HasChildrenAsync(Item item)
     {
         if (item.Level == 0) 
@@ -309,6 +243,8 @@
     {
         try
         {
+            _errorMessage = "";
+
             Console.WriteLine("Delete Mock Folder File");
 
             if (!string.IsNullOrEmpty(_folderName))
@@ -544,6 +480,8 @@
     {
         try
         {
+            _errorMessage = "";
+
             Console.WriteLine("Save Mock Folder");
 
             using var response = await Http.PostAsJsonAsync($"{apiBaseUrl}__savemockfolder", _folderName);
@@ -568,6 +506,8 @@
 
         try
         {
+            _errorMessage = "";
+            
             var response = await Http.DeleteAsync($"{apiBaseUrl}__deletemockfolder?foldername={_folderName}");
 
             if (response.IsSuccessStatusCode)
