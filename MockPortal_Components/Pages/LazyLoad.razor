@@ -242,6 +242,7 @@
         }
         catch (Exception ex)
         {
+            _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in OnLoadStart: {ex.Message}");
         }
     }
@@ -273,6 +274,7 @@
         }
         catch (Exception ex)
         {
+            _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in OnLoadStart: {ex.Message}");
         }
     }
@@ -298,6 +300,7 @@
         }
         catch (Exception ex)
         {
+            _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine(ex.ToString());
         }
     }
@@ -322,6 +325,7 @@
         }
         catch (Exception ex)
         {
+            _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in DeleteMockFolderFile: {ex.Message}");
         }
     }
@@ -331,6 +335,8 @@
         try
         {
             Console.WriteLine($"TestParameters: 1 {_param1}, 2 {_param2}, 3 {_param3}, 4 {_param4}");
+
+            _errorMessage = "";
 
             await GetMockRoutes();
 
@@ -377,10 +383,10 @@
             {
                 Console.WriteLine($"RequestType not handled: {requestType}");
             }
-            _errorMessage = "No Message";
         }
         catch (Exception ex)
         {
+            _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in TestParameters: {ex.Message}");
         }
     }
@@ -398,6 +404,7 @@
         }
         catch (Exception ex)
         {
+            _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in GetBody: {ex.Message}");
         }
 
@@ -419,6 +426,7 @@
         }
         catch (Exception ex)
         {
+            _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in GetRequestType: {ex.Message}");
             return "EXCEPTION";
         }
@@ -445,6 +453,7 @@
         }
         catch (Exception ex)
         {
+            _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in GetUrl {ex.Message}");
         }
 
@@ -482,6 +491,8 @@
     {
         var finalUrl = url;
 
+        try
+        {
         var openingBracketIndex = 0;
         var pIndex = 0;
         var pValue = "";
@@ -518,6 +529,12 @@
                 }
             }
         }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error: {ex.Message}";
+            Console.WriteLine($"Exception in ParameteriseUrl: {ex.Message}");
+        }
 
         return finalUrl;
     }
@@ -540,6 +557,7 @@
         }
         catch (Exception ex)
         {
+            _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine(ex.ToString());
         }
     }
@@ -548,17 +566,25 @@
     {
         Console.WriteLine("Delete Mock Folder");
 
-        var response = await Http.DeleteAsync($"{apiBaseUrl}__deletemockfolder?foldername={_folderName}");
-
-        if (response.IsSuccessStatusCode)
+        try
         {
-            await RefreshFolders();
+            var response = await Http.DeleteAsync($"{apiBaseUrl}__deletemockfolder?foldername={_folderName}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                await RefreshFolders();
+            }
+
+            if (!string.IsNullOrEmpty(response.ReasonPhrase))
+            {
+                Console.WriteLine(response.ReasonPhrase.ToUpperInvariant());
+                _statusMessage = response.ReasonPhrase;
+            }
         }
-
-        if (!string.IsNullOrEmpty(response.ReasonPhrase))
+        catch(Exception ex)
         {
-            Console.WriteLine(response.ReasonPhrase.ToUpperInvariant());
-            _statusMessage = response.ReasonPhrase;
+            _errorMessage = $"Error: {ex.Message}";
+            Console.WriteLine($"Exception in DeleteMockFolder: {ex.Message}");
         }
     }
 
@@ -593,6 +619,7 @@
         }
         catch (Exception ex)
         {
+            _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in GetMockFolderFiles: {ex.Message}");
         }
     }
