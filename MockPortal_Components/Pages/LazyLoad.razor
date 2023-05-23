@@ -50,6 +50,7 @@
         </div>
 
     </div>
+    <p style="color:red">_errorMessage</p>
 </div>
 <div>
     <div>
@@ -84,6 +85,8 @@
     private string _param4 = "";
 
     private string _results="";
+
+    private string _errorMessage = "";
 
     private class Item
     {
@@ -234,6 +237,8 @@
             Console.WriteLine("ONLOADSTART");
 
             await RefreshFolders();
+
+            _errorMessage = "LOADED!";
         }
         catch (Exception ex)
         {
