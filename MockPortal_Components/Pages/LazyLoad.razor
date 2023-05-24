@@ -5,6 +5,7 @@
 @using System.Text.Json;
 @using System.Text.Json.Nodes;
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
 
 <h4>Default loading template</h4>
 <div>
@@ -259,6 +260,16 @@
                 return;
             }
             
+            if (string.IsNullOrEmpty(_fileName))
+            {
+                _errorMessage = "No file specified to delete";
+                return;
+            }
+            
+            if (!await JSRuntime.InvokeAsync<bool>(
+                "confirm", $"Are you sure you want to delete the file '{_fileName}' from folder '{_folderName}'?"))
+            return;
+
             var response = await Http.DeleteAsync($"{apiBaseUrl}__deletemockfolderfile?folderName={_folderName}&fileName={_fileName}");
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
