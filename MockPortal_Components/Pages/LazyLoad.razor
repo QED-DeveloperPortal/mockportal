@@ -265,7 +265,7 @@
             {
                 _fileName = "";
                 _folderName = "";
-                _editor.SetValue("");
+                await _editor.SetValue("");
             }
         
         }
@@ -291,7 +291,6 @@
             var fullFileName = $"./Mocks/{_folderName}/{_fileName}";
             Console.WriteLine($"fullFileName {fullFileName}");
 
-            //var url = GetUrl(fullFileName);
             var url = GetUrl(await _editor.GetValue());
             var urlWithParams = ParameteriseUrl(url, _param1, _param2, _param3, _param4);
             var combinedUrl = $"{apiBaseUrl}{urlWithParams}";
@@ -302,7 +301,6 @@
             {
                 using var response = await Http.GetAsync($"{combinedUrl}");
                 Console.WriteLine($"response.StatusCode {response.StatusCode}");
-                //var results = await response.Content.ReadFromJsonAsync<string>();
                 var results = await response.Content.ReadAsStringAsync();
                 Console.WriteLine("=========================");
                 Console.WriteLine($"results: {results}");
@@ -316,10 +314,7 @@
                 Console.WriteLine($"Body: {body}");
                 using var response = await Http.PutAsync($"{combinedUrl}", new StringContent(body));
                 Console.WriteLine($"response.StatusCode {response.StatusCode}");
-                //var results = await response.Content.ReadFromJsonAsync<string>();
-                //var results = await response.Content.ReadAsStringAsync();
                 Console.WriteLine("=========================");
-                //Console.WriteLine($"results: {results}");
                 Console.WriteLine($"results: {response.StatusCode}");
                 Console.WriteLine("=========================");
 
@@ -394,8 +389,6 @@
             url = url.Replace("\'", "");
 
             Console.WriteLine($"GetUrl: {url}");
-
-            //List<Item> items = JsonConvert.DeserializeObject<List<Item>>(json);
         }
         catch (Exception ex)
         {
@@ -652,15 +645,6 @@
                 Language = "javascript",
                 GlyphMargin = true,
                 Value = ""
-                /*"\"use strict\";\n" +
-                    "function Person(age) {\n" +
-                        "	if (age) {\n" +
-                        "		this.age = age;\n" +
-                        "	}\n" +
-                        "}\n" +
-                        "Person.prototype.getAge = function () {\n" +
-                        "	return this.age;\n" +
-                        "};\n"*/
             };
     }
 
