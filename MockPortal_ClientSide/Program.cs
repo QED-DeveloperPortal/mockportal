@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 
+using Microsoft.AspNetCore.Components.Web;
+using System.Runtime.InteropServices.JavaScript;
+
 
 using System.Threading.Tasks;
 

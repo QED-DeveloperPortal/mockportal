@@ -5,7 +5,8 @@
 @using System.Text.Json;
 @using System.Text.Json.Nodes;
 @inject HttpClient Http
-@inject IJSRuntime JSRuntime
+@inject IJSRuntime JS
+@implements IAsyncDisposable
 
 <h4>Default loading template</h4>
 <div>
@@ -61,6 +62,9 @@
 </div>
 
 @code {
+
+    private Lazy<IJSObjectReference> JSModule = new();
+    
     const string apiBaseUrl = "https://mockaco.azurewebsites.net/";
 
     private string selectedItem;
@@ -83,6 +87,14 @@
     private string _results="";
 
     private string _errorMessage = "";
+
+    public async ValueTask DisposeAsync()
+    {
+        if(JSModule.IsValueCreated)
+        {
+            await JSModule.Value.DisposeAsync();
+        }
+    }
 
     private class Item
     {
@@ -158,10 +170,13 @@
     protected override async Task OnInitializedAsync()
     {
         Console.WriteLine("OnInitializedAsync");
+
+        JSModule = new(await JS.InvokeAsync<IJSObjectReference>("import", "./js/JavaScriptModule.js"));
+
         await RefreshFolders();
 
         initialised = true;
-        Console.WriteLine("OnInitializedAsync complete");
+        Console.WriteLine("OnInitializedAsync complete");            
     }
 
     #region TreeView Events
@@ -266,7 +281,7 @@
                 return;
             }
             
-            if (!await JSRuntime.InvokeAsync<bool>(
+            if (!await JS.InvokeAsync<bool>(
                 "confirm", $"Are you sure you want to delete the file '{_fileName}' from folder '{_folderName}'?"))
             return;
 
