@@ -30,7 +30,7 @@ jobs:
       env:
         API_TOKEN_GITHUB: ${{ secrets.PAT_GITHUB_TOKEN }}
       with:
-        source_folder: '/home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Release/net6.0/wwwroot/_framework'
+        source_folder: '/home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Release/net7.0/wwwroot/_framework'
         destination_repo: 'QED-DeveloperPortal/qed-developer-portal'
         destination_branch: 'dev'
         destination_folder: 'mocks/_framework'
