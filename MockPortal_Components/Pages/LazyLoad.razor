@@ -171,7 +171,7 @@
     {
         Console.WriteLine("OnInitializedAsync");
 
-        JSModule = new(await JS.InvokeAsync<IJSObjectReference>("import", "./js/JavaScriptModule.js"));
+        JSModule = new(await JS.InvokeAsync<IJSObjectReference>("import", "./_content/jsinterop/JavaScriptModule.js"));
 
         await RefreshFolders();
 
