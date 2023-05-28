@@ -63,7 +63,7 @@
 
 @code {
 
-    private Lazy<IJSObjectReference> JSModule = new();
+    //private Lazy<IJSObjectReference> JSModule = new();
     
     const string apiBaseUrl = "https://mockaco.azurewebsites.net/";
 
@@ -90,10 +90,10 @@
 
     public async ValueTask DisposeAsync()
     {
-        if(JSModule.IsValueCreated)
+        /*if(JSModule.IsValueCreated)
         {
             await JSModule.Value.DisposeAsync();
-        }
+        }*/
     }
 
     private class Item
@@ -171,7 +171,7 @@
     {
         Console.WriteLine("OnInitializedAsync");
 
-        JSModule = new(await JS.InvokeAsync<IJSObjectReference>("import", "./_content/jsinterop/JavaScriptModule.js"));
+        //JSModule = new(await JS.InvokeAsync<IJSObjectReference>("import", "./_content/jsinterop/JavaScriptModule.js"));
 
         await RefreshFolders();
 
