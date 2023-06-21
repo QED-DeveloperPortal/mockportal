@@ -8,6 +8,6 @@ namespace MockPortal_Components
     public class Constants
     {
         public const string ApiBaseUrl = "https://mockaco.azurewebsites.net/";
-            // "http://localhost:5010/";
+        // "http://localhost:5010/";
     }
 }
