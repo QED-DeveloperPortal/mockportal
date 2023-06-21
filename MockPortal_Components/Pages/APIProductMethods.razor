@@ -68,7 +68,7 @@
 
     List<ApiDetails> apiDetailsList = new List<ApiDetails>();
 
-    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+    @* [CascadingParameter] public IModalService Modal { get; set; } = default!; *@
     
     private string selectedItem;
 
@@ -212,9 +212,9 @@
         {
             Console.WriteLine("ONSELECT");
             
-            var parameters = new ModalParameters()
+            @* var parameters = new ModalParameters()
                 .Add(nameof(DisplayMessage.Message), "Hello, World!");
-                        
+                         *@
             //var ms = new ModalService();
             Console.WriteLine("ONSELECT 1.6");
             //var m = ms.Show<Confirm>("Welcome to Blazored Modal");
@@ -222,10 +222,10 @@
             //var m = new BlazoredModelInstance();
             //await m.Result;
 
-            var options = new ModalOptions
+            @* var options = new ModalOptions
             {
                 AnimationType = ModalAnimationType.None
-            };
+            }; *@
 
             //var result = await ShowConfirmDeleteModal();
             //var resultText = result.Confirmed ? "Confirmed" : "Cancelled";
@@ -325,13 +325,13 @@
         }
     }
 
-    void ShowModalCustomOverlay()
+    @* void ShowModalCustomOverlay()
     {
         var options = new ModalOptions { OverlayCustomClass = "custom-modal-overlay" };
         Modal.Show<Confirm>("Custom Overlay", options);
-    }
+    } *@
 
-    void PositionCustom(ModalPosition position)
+    @* void PositionCustom(ModalPosition position)
     {
         var options = new ModalOptions { Position = position };
 
@@ -342,11 +342,11 @@
         //options.HideHeader = true;
         
         Modal.Show<Confirm>($"Position: {position}", options);
-    }
+    } *@
 
     //void ShowYesNoModal() => Modal.Show<YesNoPrompt>("Are you sure you want to delete this record?");
 
-    async Task<ModalResult> ShowConfirmDeleteModal()
+    @* async Task<ModalResult> ShowConfirmDeleteModal()
     {
         var modal = Modal.Show<Confirm>("Are you sure you want to delete this record?");
         var result = await modal.Result;
@@ -358,7 +358,7 @@
         }
 
         return result;
-    }
+    } *@
 
     #endregion // TreeView Events
 
@@ -417,9 +417,9 @@
             //    "confirm", $"Are you sure you want to delete the file '{_fileName}' from folder '{_folderName}'?"))
             //return;
 
-            var result = await ShowConfirmDeleteModal();
+            @* var result = await ShowConfirmDeleteModal();
             var resultText = result.Confirmed ? "YES!" : "NO!";
-            Console.WriteLine($"ShowConfirmDeleteModal: {resultText}");
+            Console.WriteLine($"ShowConfirmDeleteModal: {resultText}"); *@
             return;
 
             var response = await Http.DeleteAsync($"{Constants.ApiBaseUrl}__deletemockfolderfile?folderName={_folderName}&fileName={_fileName}");

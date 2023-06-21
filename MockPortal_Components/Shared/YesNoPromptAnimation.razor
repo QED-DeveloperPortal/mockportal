@@ -1,13 +1,14 @@
-@inject IModalService ModalService
+@* @inject IModalService ModalService *@
 
 <div>
     <p>Are you sure you want to delete the record?</p>
 
-    <button @onclick="Yes" class="btn btn-outline-danger">Yes</button>
-    <button @onclick="No" class="btn btn-primary">No</button>
+    @* <button @onclick="Yes" class="btn btn-outline-danger">Yes</button>
+    <button @onclick="No" class="btn btn-primary">No</button> *@
 </div>
 
-@code {
+@* 
+@code { 
 
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
@@ -26,4 +27,4 @@
 
     async Task No() => await BlazoredModal.CancelAsync();
 
-}
+} *@

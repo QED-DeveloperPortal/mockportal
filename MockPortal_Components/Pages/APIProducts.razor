@@ -61,7 +61,7 @@
 
     List<ApiProduct> apiProducts = new List<ApiProduct>();
 
-    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+    @* [CascadingParameter] public IModalService Modal { get; set; } = default!; *@
 
     private string selectedItem;
 
@@ -213,15 +213,15 @@
         {
             Console.WriteLine("ONSELECT");
             
-            var parameters = new ModalParameters()
-                .Add(nameof(DisplayMessage.Message), "Hello, World!");
+            @* var parameters = new ModalParameters()
+                .Add(nameof(DisplayMessage.Message), "Hello, World!"); *@
                         
             Console.WriteLine("ONSELECT 1.6");
 
-            var options = new ModalOptions
+            @* var options = new ModalOptions
             {
                 AnimationType = ModalAnimationType.None
-            };
+            }; *@
 
             Console.WriteLine("ONSELECT 2");
             
@@ -251,7 +251,7 @@
         }
     }
 
-    void ShowModalCustomOverlay()
+    @* void ShowModalCustomOverlay()
     {
         var options = new ModalOptions { OverlayCustomClass = "custom-modal-overlay" };
         Modal.Show<Confirm>("Custom Overlay", options);
@@ -265,9 +265,9 @@
             options.PositionCustomClass = "my-custom-position";
 
         Modal.Show<Confirm>($"Position: {position}", options);
-    }
+    } *@
 
-    async Task<ModalResult> ShowConfirmDeleteModal()
+    @* async Task<ModalResult> ShowConfirmDeleteModal()
     {
         var modal = Modal.Show<Confirm>("Are you sure you want to delete this record?");
         var result = await modal.Result;
@@ -279,7 +279,7 @@
         }
 
         return result;
-    }
+    } *@
 
     #endregion // TreeView Events
 

@@ -3,15 +3,15 @@
 
     <!--<button @onclick="Close" class="btn btn-primary">Close</button>
     <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>-->
-    <button @onclick="Close" class="btn btn-primary">Yes</button>
-    <button @onclick="Cancel" class="btn btn-secondary">No</button>
+    @* <button @onclick="Close" class="btn btn-primary">Yes</button>
+    <button @onclick="Cancel" class="btn btn-secondary">No</button> *@
 </div>
 
-@code {
+@* @code {
 
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
     async Task Close() =>  await BlazoredModal.CloseAsync(ModalResult.Ok(true));
     async Task Cancel() => await BlazoredModal.CancelAsync();
 
-}
+} *@

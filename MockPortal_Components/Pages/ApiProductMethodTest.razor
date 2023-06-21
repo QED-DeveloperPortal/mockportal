@@ -49,7 +49,7 @@
 
     AppCatalogMethod appCatalogMethod = new AppCatalogMethod();
 
-    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+    @* [CascadingParameter] public IModalService Modal { get; set; } = default!; *@
     
     private string selectedItem;
 
@@ -212,7 +212,7 @@
         //var jsonString = JsonSerializer.Serialize(yourObj, new JsonSerializerOptions { WriteIndented = true });
     }
 
-    void ShowModalCustomOverlay()
+    @* void ShowModalCustomOverlay()
     {
         var options = new ModalOptions { OverlayCustomClass = "custom-modal-overlay" };
         Modal.Show<Confirm>("Custom Overlay", options);
@@ -229,11 +229,11 @@
         //options.HideHeader = true;
         
         Modal.Show<Confirm>($"Position: {position}", options);
-    }
+    } *@
 
     //void ShowYesNoModal() => Modal.Show<YesNoPrompt>("Are you sure you want to delete this record?");
 
-    async Task<ModalResult> ShowConfirmDeleteModal()
+    @* async Task<ModalResult> ShowConfirmDeleteModal()
     {
         var modal = Modal.Show<Confirm>("Are you sure you want to delete this record?");
         var result = await modal.Result;
@@ -245,7 +245,7 @@
         }
 
         return result;
-    }
+    } *@
 
     #endregion // TreeView Events
 
@@ -304,10 +304,12 @@
             //    "confirm", $"Are you sure you want to delete the file '{_fileName}' from folder '{_folderName}'?"))
             //return;
 
-            var result = await ShowConfirmDeleteModal();
+            @* var result = await ShowConfirmDeleteModal();
             var resultText = result.Confirmed ? "YES!" : "NO!";
             Console.WriteLine($"ShowConfirmDeleteModal: {resultText}");
-            return;
+            return; *@
+
+return;
 
             var response = await Http.DeleteAsync($"{Constants.ApiBaseUrl}__deletemockfolderfile?folderName={_folderName}&fileName={_fileName}");
 
