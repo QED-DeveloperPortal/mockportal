@@ -1,4 +1,4 @@
-@page "/lazy"
+@page "/apiproductmethods/{groupcode}"
 @using System.Net.Http;
 @using System.Net.Http.Json;
 @using System.IO;
@@ -6,27 +6,39 @@
 @using System.Text.Json.Nodes;
 @inject HttpClient Http
 @inject IJSRuntime JS
+@inject NavigationManager NavigationManager
 @implements IAsyncDisposable
 
-<h4>List of APIs</h4>
+<h4>@(appCatalogGroups.Count == 0 ? "" : appCatalogGroups[0].GroupName)</h4>
 <div>
-    <!--<TreeViewAsync @key="_rootItem" GetChildrenAsync="GetChildrenAsync" HasChildrenAsync="HasChildrenAsync" AllowSelection="false" SelectedItems="SelectedItems">
-        <ItemTemplate>
-             <label @onclick="() => OnSelect(context.Item)" >@context.Item.Self</label>
-        </ItemTemplate>
-    </TreeViewAsync>-->
     <section class="api-master-container">
-        <h3 class="api-header">Student-API</h3>
-        @foreach (var api in apiDetailsList)
+        <article class="api-key-container">
+            <h3 class="api-key-header">APP ID</h3>
+            <div class="api-key-value">7649d0a3-c4b4-4dfe-82ea-70f85006c4a3<span class="icon-suffix"><i class="fas fa-copy"></i></span></div>
+            <button class="btn-active">Create key</button>
+            <div class="api-key-value-container">
+                <div class="api-kv-key">Key1</div>
+                <div class="api-kv-value">63d07833-001a-4898-99d9-26b239b67d22</div>
+                <span class="icon-suffix"><i class="fas fa-copy"></i></span>
+                <span class="icon-suffix"><i class="fas fa-times"></i></span>
+            </div>
+        </article>
+
+        @foreach (var method in appCatalogMethods)
         {
+            @if (@method.DomainName != currentDomainName)
+            {
+                <h3 class="api-header">@method.DomainName</h3>            
+                currentDomainName = @method.DomainName;
+            }
             <article class="api-container">
-                <div class="page-taxonomy tag-@api.apiType.ToLowerInvariant()" title="@api.apiType" rel="tag">@api.apiType.ToUpperInvariant()</div>
+                <div class="page-taxonomy tag-@method.MethodType.ToLower()" title="@method.MethodType" rel="tag">@method.MethodType</div>
                 <div class="api-detail-container">
-                    <div class="api-name">@api.apiPath</div>
-                    <div class="api-description">View student profile</div>
+                    <div class="api-name">@(method.MethodPrefix + method.Method)</div>
+                    <div class="api-description">@method.MethodDescription</div>
                 </div>
                 <div class="api-link-container">
-                    <a href="#" class="api-nav-link">
+                    <a onclick=@(() => OpenApiProductMethodTest(method.Id)) class="api-nav-link">
                         <i class="fas fa-chevron-right"></i>
                     </a>
                 </div>
@@ -38,51 +50,12 @@
 <div style="margin:10px 0;">
     <label style="color: red;">@_statusMessage</label>
 </div>
-
-<div style="margin:10px 0;">
-    <button @onclick="SaveMockFolder">Save Folder</button>
-    Folder: <input type="text" @bind="_folderName" style="width: 300px;" />
-    <button @onclick="DeleteMockFolder">Delete Folder</button>
-</div>
-<div style="margin:10px 0;">
-    <button @onclick="SaveMockFolderFile">Save JSON (Ctrl+J)</button>
-    Filename: <input type="text" @bind="_fileName" style="width: 300px;" />
-    <button @onclick="DeleteMockFolderFile">Delete File</button>
-</div>
-<div style="margin:10px 0;">
-    API Description: <input type="text" @bind="_apiDescription" style="width: 300px;" />
-</div>
-
-<div style="margin:10px 0; height:400px;">
-    <StandaloneCodeEditor @ref="_editor" Id="sample-code-editor-123" ConstructionOptions="EditorConstructionOptions" OnDidInit="EditorOnDidInit" OnContextMenu="OnContextMenu" CssClass="editor-class" />
-</div>
-
-<div style="margin:10px 0;">
-    <div>
-        <div>Parameter 1: <input type="text" @bind="_param1" style="width: 300px;" /></div>
-    </div>
-    <div>
-        <div>Parameter 2: <input type="text" @bind="_param2" style="width: 300px;" /></div>
-    </div>
-    <div>
-        <div>Parameter 3: <input type="text" @bind="_param3" style="width: 300px;" /></div>
-    </div>
-    <div>
-        <div>
-            Parameter 4: <input type="text" @bind="_param4" style="width: 300px;" />
-            <button @onclick="TestParameters">Test API</button>
-        </div>
-
-    </div>
-    <p style="color:red">@_errorMessage</p>
-</div>
-<div>
-    <div>
-        <textarea rows="10" cols="60" name="_results" @bind="_results" placeholder="query results..."></textarea>
-    </div>
-</div>
-
 @code {
+
+    [Parameter]
+    public string groupcode{ get; set; }
+
+    string currentDomainName = "";
 
     public class  ApiDetails
     {
@@ -90,12 +63,10 @@
         public string apiPath {get;set;}
     }
 
+    List<AppCatalogGroup> appCatalogGroups = new List<AppCatalogGroup>();
+    List<AppCatalogMethod> appCatalogMethods = new List<AppCatalogMethod>();
+
     List<ApiDetails> apiDetailsList = new List<ApiDetails>();
-
-    //[CascadingParameter] public IModalService Modal { get; set; } = default!;
-    //[CascadingParameter] public BlazoredModalInstance ModalOne { get; set; } = default!;
-
-     //private void ShowModal() => Modal.Show<Confirm>("First Modal");
 
     [CascadingParameter] public IModalService Modal { get; set; } = default!;
     
@@ -108,7 +79,6 @@
     private StandaloneCodeEditor _editor = null!;
     private string _valueToSet = "";
     private string _fileName = "";
-    private string _apiDescription = "";
     private string _folderName = "";
     private string _statusMessage = "";
 
@@ -123,10 +93,7 @@
 
     public async ValueTask DisposeAsync()
     {
-        /*if(JSModule.IsValueCreated)
-        {
-            await JSModule.Value.DisposeAsync();
-        }*/
+    
     }
 
     private class Item
@@ -204,15 +171,21 @@
     {
         Console.WriteLine("OnInitializedAsync");
 
-        //JSModule = new(await JS.InvokeAsync<IJSObjectReference>("import", "./_content/jsinterop/JavaScriptModule.js"));
+        //await RefreshFolders();
 
-        await RefreshFolders();
+        //apiDetailsList.Add(new ApiDetails {apiType = "GET", apiPath = "/students/list/zoneId={zoneId}"});
+        //apiDetailsList.Add(new ApiDetails {apiType = "PUT", apiPath = "/students/savestudent/zoneId={zoneId}"});
 
-        apiDetailsList.Add(new ApiDetails {apiType = "GET", apiPath = "/students/list/zoneId={zoneId}"});
-        apiDetailsList.Add(new ApiDetails {apiType = "PUT", apiPath = "/students/savestudent/zoneId={zoneId}"});
+        await GetAppCatalogGroups();
+        await GetAppCatalogMethods(groupcode);
 
         initialised = true;
         Console.WriteLine("OnInitializedAsync complete");            
+    }
+
+    private void OpenApiProductMethodTest(string Id)
+    {
+        NavigationManager.NavigateTo($"/apiproductmethodtest/{Id}");
     }
 
     #region TreeView Events
@@ -222,7 +195,7 @@
         {
             Console.WriteLine("ONLOADSTART");
 
-            await RefreshFolders();
+            //await RefreshFolders();
 
             _errorMessage = "LOADED!";
         }
@@ -254,6 +227,21 @@
                 AnimationType = ModalAnimationType.None
             };
 
+            //var result = await ShowConfirmDeleteModal();
+            //var resultText = result.Confirmed ? "Confirmed" : "Cancelled";
+            //Console.WriteLine($"ShowConfirmDeleteModal: {resultText}");
+            
+            //PositionCustom(ModalPosition.Middle);
+            //ShowModalCustomOverlay();
+            //var _ = Modal.Show<YesNoPromptAnimation>("Multiple Modals", options);
+            //await _.Result;
+
+            //var m1 = ms.Show<DisplayMessage>("Welcome to Blazored Modal");
+            //await m1.Result;
+            //var _ = Modal.Show<DisplayMessage>("Passing Data", parameters);
+            //await _.Result;
+            Console.WriteLine("ONSELECT 2");
+            
             _results = "";
 
             if (!initialised) return;
@@ -266,8 +254,6 @@
             {
                 _folderName = item.Parent;
                 _fileName = item.Self;
-                // TBD
-                //_apiDescription = "";
 
                 using var response = await Http.GetAsync($@"{Constants.ApiBaseUrl}__getmockfolderfilecontents?folderName={_folderName}&fileName={_fileName}");
                 var contents = await response.Content.ReadFromJsonAsync<string>();
@@ -279,6 +265,63 @@
         {
             _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in OnLoadStart: {ex.Message}");
+        }
+    }
+
+    private async Task GetAppCatalogGroups()
+    {
+        try
+        {
+            Console.WriteLine("GetAppCatalogGroups");
+
+            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getappcataloggroups");
+            Console.WriteLine($"GetAppCatalogGroups response {response.StatusCode}");
+            appCatalogGroups = await response.Content.ReadFromJsonAsync <List<AppCatalogGroup>>();
+            if (appCatalogGroups == null)
+            {
+                Console.WriteLine("No App Catalog Groups Found");
+            }
+            else
+                Console.WriteLine($"AppCatalogGroups Count: {appCatalogGroups.Count}");
+
+            Console.WriteLine("GET APP CATALOGUE GROUPS");
+            foreach (var group in appCatalogGroups)
+            {
+                Console.WriteLine($"{group.GroupName}, {group.GroupDescription}, {group.ShortCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception in GetAppCatalogGroups: {ex.Message}");
+        }
+    }
+
+    private async Task GetAppCatalogMethods(string groupCode)
+    {
+        try
+        {
+            Console.WriteLine("GetAppCatalogMethods");
+
+            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getappcatalogmethods?groupCode={groupCode}");
+            Console.WriteLine($"GetAppCatalogMethods response {response.StatusCode}");
+            appCatalogMethods = await response.Content.ReadFromJsonAsync <List<AppCatalogMethod>>();
+            if (appCatalogMethods == null)
+            {
+                Console.WriteLine("No App Catalog Methods Found");
+            }
+            else
+                Console.WriteLine($"AppCatalogMethods Count: {appCatalogMethods.Count}");
+
+            Console.WriteLine($"GET APP CATALOGUE METHODS {appCatalogMethods.Count}");
+            foreach (var method in appCatalogMethods)
+            {
+                Console.WriteLine($"{method.GroupCode}, {method.DomainName}, {method.MethodType}, {method.Method}, {method.MethodDescription}, {method.FileName}");
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error: {ex.Message}";
+            Console.WriteLine($"Exception in GetAppCatalogMethods: {ex.Message}");
         }
     }
 
@@ -332,18 +375,11 @@
                 return;
             }
 
-            if (string.IsNullOrEmpty(_apiDescription))
-            {
-                _errorMessage = "Please specify an API Description";
-                return;
-            }
-
             var fileDetails = new Dictionary<string, string>
             {
                 { "filename", _fileName },
                 { "foldername", _folderName },
-                { "contents", fileContent },
-                { "description", _apiDescription }
+                { "contents", fileContent }
             };
 
             using var response = await Http.PostAsJsonAsync($"{Constants.ApiBaseUrl}__savemockfolderfile", fileDetails);
@@ -635,7 +671,7 @@
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                await RefreshFolders();           
+                //await RefreshFolders();           
             }
 
             Console.WriteLine(response.StatusCode.ToString());
@@ -665,7 +701,7 @@
 
             if (response.IsSuccessStatusCode)
             {
-                await RefreshFolders();
+                //await RefreshFolders();
             }
 
             if (!string.IsNullOrEmpty(response.ReasonPhrase))
@@ -713,7 +749,7 @@
         catch (Exception ex)
         {
             _errorMessage = $"Error: {ex.Message}";
-            Console.WriteLine($"Exception in RefreshFolders: {ex.Message}");
+            Console.WriteLine($"Exception in GetMockFolderFiles: {ex.Message}");
         }
     }
 

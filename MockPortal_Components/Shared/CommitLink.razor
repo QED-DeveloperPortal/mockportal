@@ -11,11 +11,11 @@
     {
         if (firstRender)
         {
-            var file = await HttpClient.GetAsync("commit.txt");
+            /*var file = await HttpClient.GetAsync("commit.txt");
             if (file.IsSuccessStatusCode)
             {
                 CommitHash = await file.Content.ReadAsStringAsync();
-            }
+            }*/
             await InvokeAsync(StateHasChanged);
         }
         await base.OnAfterRenderAsync(firstRender);
