@@ -190,11 +190,11 @@ app {
         color: red;
     }
     
-    .my-custom-position .blazored-modal {
+    /* .my-custom-position .blazored-modal {
         position: absolute;
         top: 20%;
         left: 10%;
-    }
+    } */
     
     .my-custom-size {
         width: 88%;

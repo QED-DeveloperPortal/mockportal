@@ -63,7 +63,7 @@
         public string apiPath {get;set;}
     }
 
-    List<AppCatalogGroup> appCatalogGroups = new List<AppCatalogGroup>();
+    List<AppCatGroup> appCatalogGroups = new List<AppCatGroup>();
     List<AppCatalogMethod> appCatalogMethods = new List<AppCatalogMethod>();
 
     List<ApiDetails> apiDetailsList = new List<ApiDetails>();
@@ -276,7 +276,7 @@
 
             using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getappcataloggroups");
             Console.WriteLine($"GetAppCatalogGroups response {response.StatusCode}");
-            appCatalogGroups = await response.Content.ReadFromJsonAsync <List<AppCatalogGroup>>();
+            appCatalogGroups = await response.Content.ReadFromJsonAsync <List<AppCatGroup>>();
             if (appCatalogGroups == null)
             {
                 Console.WriteLine("No App Catalog Groups Found");

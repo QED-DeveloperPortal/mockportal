@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MockPortal_Components
 {
-    public class AppCatalogGroup
+    public class AppCatGroup
     {
         public string GroupCode { get; set; }
         public string GroupName { get; set; }

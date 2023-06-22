@@ -28,7 +28,7 @@
             </article>
         }*@
 
-        @foreach (var group in appCatalogGroups)
+        @foreach (var group in appCatGroups)
         {
             var code = group.GroupCode;
             <article class="app-cat-container">
@@ -383,7 +383,7 @@
         return parameterNames;
     }
     
-    List<AppCatalogGroup> appCatalogGroups = new List<AppCatalogGroup>();
+    List<AppCatGroup> appCatGroups = new List<AppCatGroup>();
 
     private async Task GetAppCatalogGroups()
     {
@@ -393,15 +393,15 @@
 
             using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getappcataloggroups");
             Console.WriteLine($"GetAppCatalogGroups response {response.StatusCode}");
-            appCatalogGroups = await response.Content.ReadFromJsonAsync <List<AppCatalogGroup>>();
-            if (appCatalogGroups == null)
+            appCatGroups = await response.Content.ReadFromJsonAsync <List<AppCatGroup>>();
+            if (appCatGroups == null)
             {
                 Console.WriteLine("No App Catalog Groups Found");
             }
             else
-                Console.WriteLine($"AppCatalogGroups Count: {appCatalogGroups.Count}");
+                Console.WriteLine($"AppCatalogGroups Count: {appCatGroups.Count}");
 
-            foreach (var group in appCatalogGroups)
+            foreach (var group in appCatGroups)
             {
                 Console.WriteLine($"{group.GroupName}, {group.GroupDescription}, {group.ShortCode}");
             }
@@ -413,7 +413,7 @@
         catch (Exception ex)
         {
             _errorMessage = $"Error: {ex.Message}";
-            Console.WriteLine($"Exception in GetAppCatalogGroups: {ex.Message}");
+            Console.WriteLine($"Exception in GetAppCatGroups: {ex.Message}");
         }
     }
 
