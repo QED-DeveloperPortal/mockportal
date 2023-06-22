@@ -1,4 +1,4 @@
-@page "/apiproductmethodtest/{id}"
+@page "/apiproductmethodtest/{groupcode}/{id}"
 @using System.Net.Http;
 @using System.Net.Http.Json;
 @using System.IO;
@@ -43,6 +43,9 @@
 </div>
 
 @code {
+
+    [Parameter]
+    public string groupcode { get; set; }
 
     [Parameter]
     public string id { get; set; }
@@ -178,9 +181,9 @@
     {
         try
         {
-            Console.WriteLine("GetAppCatalogMethod");
+            Console.WriteLine($"GetAppCatalogMethod groupCode:{groupcode} Id: {Id}");
 
-            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getappcatalogmethod?id={Id}");
+            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getappcatalogmethod?groupCode={groupcode}&id={Id}");
             Console.WriteLine($"GetAppCatalogMethod response {response.StatusCode}");
             appCatalogMethod = await response.Content.ReadFromJsonAsync <AppCatalogMethod>();
             if (appCatalogMethod == null)
