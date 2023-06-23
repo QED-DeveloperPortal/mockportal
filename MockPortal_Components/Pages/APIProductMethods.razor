@@ -1,4 +1,4 @@
-@page "/apiproductmethods/{groupcode}"
+@page "/mocks/apiproductmethods/{groupcode}"
 @using System.Net.Http;
 @using System.Net.Http.Json;
 @using System.IO;
@@ -169,7 +169,7 @@
     bool initialised = false;
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("OnInitializedAsync");
+        Console.WriteLine($"APIProductMethods::OnInitializedAsync groupcode {groupcode}");
 
         //await RefreshFolders();
 
