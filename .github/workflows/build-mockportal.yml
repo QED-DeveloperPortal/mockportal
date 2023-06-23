@@ -24,7 +24,7 @@ jobs:
     - name: Build and publish
       run: dotnet publish -c Release -o ./publish -f net7.0
     - name: ListFolderContents
-      run: ls -laR /home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin
+      run: ls -laR /home/runner/work/mockportal/mockportal/MockPortal_ClientSide
     - name: Push publish folder
       uses: crykn/copy_folder_to_another_repo_action@v1.0.6
       env:
