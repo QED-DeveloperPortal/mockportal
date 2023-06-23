@@ -21,20 +21,20 @@ jobs:
         dotnet-version: ${{ env.dotnet_version }}
     - name: Install dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build -c Release --no-restore
+    - name: Build and publish
+      run: dotnet publish -c Release -o ./publish
     - name: ListFolderContents
-      run: ls -laR /home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Release/net7.0/wwwroot/_framework
-    - name: Push _framework folder
+      run: ls -laR /home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Release/net7.0/publish
+    - name: Push publish folder
       uses: crykn/copy_folder_to_another_repo_action@v1.0.6
       env:
         API_TOKEN_GITHUB: ${{ secrets.PAT_GITHUB_TOKEN }}
       with:
-        source_folder: '/home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Release/net7.0/wwwroot/_framework'
+        source_folder: '/home/runner/work/mockportal/mockportal/MockPortal_ClientSide/bin/Release/net7.0/publish'
         destination_repo: 'QED-DeveloperPortal/qed-developer-portal'
         destination_branch: 'dev'
-        destination_folder: 'mocks/_framework'
+        destination_folder: 'mocks'
         user_email: 'andrew@sitestudio.co'
         user_name: 'sitestudio'
-        commit_msg: '[GHA] Update mockportal _framework files.'
+        commit_msg: '[GHA] Update mockportal files.'
       
