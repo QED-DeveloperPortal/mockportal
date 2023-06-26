@@ -12,7 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MockPortal_Components\MockPortal_Components.csproj" />
   </ItemGroup>
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Content Include="wwwroot\css\**" CopyToPublishDirectory="PreserveNewest" />
-  </ItemGroup>
+  </ItemGroup> -->
 </Project>
