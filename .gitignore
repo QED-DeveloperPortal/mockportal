@@ -14,7 +14,7 @@
 *.userprefs
 
 .DS_Store
-wwwroot/
+#wwwroot/
 DeployFiles/
 .vscode/
 
