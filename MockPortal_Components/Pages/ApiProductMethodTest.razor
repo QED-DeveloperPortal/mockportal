@@ -11,7 +11,8 @@
 <div>
     <section class="api-master-container">
         <div class="api-header-block">
-            <a href="#" class="api-header-nav-link">
+            @* <a href='@string.Format("/apiproductmethods/{0}", groupcode)' class="api-header-nav-link"> *@
+            <a href="@($"/apiproductmethods/{groupcode}")" class="api-header-nav-link">
                 <i class="fas fa-chevron-left"></i>
             </a>
             <h1 class="block-header">@appCatalogMethod.DomainName</h1>
@@ -22,22 +23,46 @@
         </div>
         <h2 class="api-header">Model</h2>
         <pre>
-            <code id="api-input" class="api-model-input"></code>
+            <code id="api-input" class="api-model-input">@model</code>
         </pre>
 
         <h2 class="api-header">Request</h2>
-        <div class="request-label">
-            <span>{eqid}</span>
-            <span role="alert" class="alert">Required</span>
-        </div>
-        <input type="text" class="api-request-input" />
+
+
+            @* @if (@method.DomainName != currentDomainName)
+            {
+                <h3 class="api-header">@method.DomainName</h3>            
+                currentDomainName = @method.DomainName;
+            }
+            <article class="api-container">
+                <div class="page-taxonomy tag-@method.MethodType.ToLower()" title="@method.MethodType" rel="tag">@method.MethodType</div>
+                <div class="api-detail-container">
+                    <div class="api-name">@(method.MethodPrefix + method.Method)</div>
+                    <div class="api-description">@method.MethodDescription</div>
+                </div>
+                <div class="api-link-container">
+                    <a onclick=@(() => OpenApiProductMethodTest(method.Id)) class="api-nav-link">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+            </article> *@
+
+        @foreach (var qp in queryParameters)
+        {
+            <div class="request-label">
+                <span>@qp</span>
+                <span role="alert" class="alert">Required</span>
+            </div>
+            <input type="text" class="api-request-input" />
+        }
+
         <div class="btn-container">
             <button class="btn-active" style="float: right;">Execute</button>
-        </div>
+        </div>    
 
         <h2 class="api-header">Response</h2>
         <pre>
-            <code id="api-response" class="api-model-response"></code>
+            <code id="api-response" class="api-model-response">@response</code>
         </pre>
     </section>
 </div>
@@ -51,6 +76,9 @@
     public string id { get; set; }
 
     AppCatalogMethod appCatalogMethod = new AppCatalogMethod();
+    string model = "";
+    List<string> queryParameters = new List<string>();
+    string response = "";
 
     @* [CascadingParameter] public IModalService Modal { get; set; } = default!; *@
     
@@ -156,6 +184,9 @@
         Console.WriteLine($"ApiProductMethodTest::OnInitializedAsync {id}");
 
         await GetAppCatalogMethod(id);
+        await GetModel(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
+        await GetQueryParameters(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
+        //await GetResponse(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
 
         initialised = true;
         Console.WriteLine("OnInitializedAsync complete");            
@@ -200,6 +231,69 @@
         {
             _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in GetAppCatalogMethod: {ex.Message}");
+        }
+    }
+
+    private async Task GetModel(string groupCode, string domainName, string method)
+    {
+        try
+        {
+            Console.WriteLine($"GetModel groupCode:{groupcode} DomainName: {domainName} Method:{method}");
+
+            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getmodel?groupCode={groupcode}&domainName={domainName}&method={method}");
+            Console.WriteLine($"GetModel response {response.StatusCode}");
+            model = await response.Content.ReadAsStringAsync();
+            if (appCatalogMethod == null)
+            {
+                Console.WriteLine("No Model Found");
+            }
+            else
+                Console.WriteLine($"MODEL: {model}");
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error: {ex.Message}";
+            Console.WriteLine($"Exception in GetModel: {ex.Message}");
+        }
+    }
+
+    private async Task GetQueryParameters(string groupCode, string domainName, string method)
+    {
+        try
+        {
+            Console.WriteLine($"GetQueryParameters groupCode:{groupcode} DomainName: {domainName} Method:{method}");
+
+            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getqueryparameters?groupCode={groupcode}&domainName={domainName}&method={method}");
+            Console.WriteLine($"GetQueryParameters response {response.StatusCode}");
+            queryParameters = await response.Content.ReadFromJsonAsync<List<string>>();
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error: {ex.Message}";
+            Console.WriteLine($"Exception in GetQueryParameters: {ex.Message}");
+        }
+    }
+
+    private async Task GetResponse(string groupCode, string domainName, string method)
+    {
+        try
+        {
+            Console.WriteLine($"GetResponse groupCode:{groupcode} DomainName: {domainName} Method:{method}");
+
+            using var apiResponse = await Http.GetAsync($"{Constants.ApiBaseUrl}__getresponse?groupCode={groupcode}&domainName={domainName}&method={method}");
+            Console.WriteLine($"GetResponse apiResponse {apiResponse.StatusCode}");
+            response = await apiResponse.Content.ReadAsStringAsync();
+            if (appCatalogMethod == null)
+            {
+                Console.WriteLine("No Response Found");
+            }
+            else
+                Console.WriteLine($"MODEL: {response}");
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error: {ex.Message}";
+            Console.WriteLine($"Exception in GetResponse: {ex.Message}");
         }
     }
 

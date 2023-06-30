@@ -9,7 +9,18 @@
 @inject NavigationManager NavigationManager
 @implements IAsyncDisposable
 
-<h4>@(appCatalogGroups.Count == 0 ? "" : appCatalogGroups[0].GroupName)</h4>
+@* <div class="api-header-block">
+    <a href="/apiproducts" class="api-header-nav-link">
+        <i class="fas fa-chevron-left"></i>
+    </a>
+    <h1 class="block-header">@(appCatalogGroups.Count == 0 ? "" : appCatalogGroups[0].GroupName)</h1>
+</div> *@
+<div class="api-header-block">
+    <a href="/apiproducts" class="api-header-nav-link">
+        <i class="fas fa-chevron-left"></i>
+    </a>
+    <h4 class="block-header">@groupName</h4>
+</div>
 <div>
     <section class="api-master-container">
         <article class="api-key-container">
@@ -40,6 +51,7 @@
                 <div class="api-link-container">
                     <a onclick=@(() => OpenApiProductMethodTest(method.Id)) class="api-nav-link">
                         <i class="fas fa-chevron-right"></i>
+                        @* <button>></button> *@
                     </a>
                 </div>
             </article>
@@ -63,7 +75,7 @@
         public string apiPath {get;set;}
     }
 
-    List<AppCatGroup> appCatalogGroups = new List<AppCatGroup>();
+    string groupName = "";
     List<AppCatalogMethod> appCatalogMethods = new List<AppCatalogMethod>();
 
     List<ApiDetails> apiDetailsList = new List<ApiDetails>();
@@ -176,7 +188,7 @@
         //apiDetailsList.Add(new ApiDetails {apiType = "GET", apiPath = "/students/list/zoneId={zoneId}"});
         //apiDetailsList.Add(new ApiDetails {apiType = "PUT", apiPath = "/students/savestudent/zoneId={zoneId}"});
 
-        await GetAppCatalogGroups();
+        await GetAppCatalogGroupName(groupcode);
         await GetAppCatalogMethods(groupcode);
 
         initialised = true;
@@ -268,27 +280,17 @@
         }
     }
 
-    private async Task GetAppCatalogGroups()
+    private async Task GetAppCatalogGroupName(string groupCode)
     {
         try
         {
-            Console.WriteLine("GetAppCatalogGroups");
+            Console.WriteLine("GetAppCatalogGroupName");
 
-            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getappcataloggroups");
+            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getappcataloggroupname?groupCode={groupCode}");
             Console.WriteLine($"GetAppCatalogGroups response {response.StatusCode}");
-            appCatalogGroups = await response.Content.ReadFromJsonAsync <List<AppCatGroup>>();
-            if (appCatalogGroups == null)
-            {
-                Console.WriteLine("No App Catalog Groups Found");
-            }
-            else
-                Console.WriteLine($"AppCatalogGroups Count: {appCatalogGroups.Count}");
-
-            Console.WriteLine("GET APP CATALOGUE GROUPS");
-            foreach (var group in appCatalogGroups)
-            {
-                Console.WriteLine($"{group.GroupName}, {group.GroupDescription}, {group.ShortCode}");
-            }
+            groupName = await response.Content.ReadAsStringAsync();
+            
+            Console.WriteLine($"GET APP CATALOGUE GROUPNAME: {groupName}");
         }
         catch (Exception ex)
         {
