@@ -12,13 +12,4 @@
   <ItemGroup>
     <ProjectReference Include="..\MockPortal_Components\MockPortal_Components.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <!-- <Content Remove="wwwroot/css/app.css" /> -->
-    <Content Include="wwwroot/css/app.css" />
-  <!-- <Content Remove="wwwroot/css/main.css" /> -->
-    <Content Include="wwwroot/css/main.css" />
-  </ItemGroup>
-  <!-- <ItemGroup>
-    <Content Include="wwwroot\css\**" CopyToPublishDirectory="PreserveNewest" />
-  </ItemGroup> -->
 </Project>
