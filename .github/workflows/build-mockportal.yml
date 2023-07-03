@@ -41,7 +41,4 @@ jobs:
         user_email: 'andrew@sitestudio.co'
         user_name: 'sitestudio'
         commit_msg: '[GHA] Update mockportal files.'
-    - name: Clean It up
-      run: |
-        git config —-local --unset http.postBuffer
         
