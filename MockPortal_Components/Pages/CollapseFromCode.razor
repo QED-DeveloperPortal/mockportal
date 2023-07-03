@@ -1,12 +1,12 @@
 ﻿@page "/collapse_from_code"
 <SourceCodeLink Repository="Blazor.TreeViews" Page="@nameof(CollapseFromCode)" />
 
-<TreeView Items="Items" GetParent="GetParent">
+<!--<TreeView Items="Items" GetParent="GetParent">
     <ItemTemplate>
         <Collapse @bind-Value="@context.Item.Collapsed" />
         @context.Item.Value (@(context.Item.Collapsed ? "collapsed" : "expanded"))
     </ItemTemplate>
-</TreeView>
+</TreeView>-->
 
 <button @onclick="() => { Items.First().Collapsed = !Items.First().Collapsed; }">Toggle expansion state of first item</button>
 

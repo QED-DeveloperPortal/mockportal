@@ -1,11 +1,11 @@
 ﻿@page "/disable"
 <SourceCodeLink Repository="Blazor.TreeViews" Page="@nameof(DisableTreeOrNodes)" />
 
-<TreeView Disabled="TreeDisabled" Items="Items" ItemDisabled="item => item.Disabled" GetParent="GetParent" AllowSelection>
+@*<TreeView Disabled="TreeDisabled" Items="Items" ItemDisabled="item => item.Disabled" GetParent="GetParent" AllowSelection>
     <ItemTemplate>
         @context.Item.Value (@(context.Item.Disabled ? "disabled" : "enabled"))
     </ItemTemplate>
-</TreeView>
+</TreeView>*@
 
 <button @onclick="() => TreeDisabled = !TreeDisabled">Toggle disable state of tree</button>
 <button @onclick="@(() => { Items.First(x => x.Value == "1").Disabled = !Items.First(x => x.Value == "1").Disabled; })">Toggle disable state of 1</button>

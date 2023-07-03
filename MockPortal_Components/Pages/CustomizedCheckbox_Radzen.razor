@@ -2,7 +2,7 @@
 
 @code {
     private static readonly object no_render = new object();
-    private static readonly CheckboxFragment checkbox_template_radzen =
+    @*private static readonly CheckboxFragment checkbox_template_radzen =
         (value, indeterminate, value_changed, disabled) =>
             (builder) =>
             {
@@ -13,10 +13,9 @@
                 builder.AddAttribute(4, nameof(Radzen.Blazor.RadzenCheckBox<bool?>.Disabled), disabled);
                 builder.AddEventStopPropagationAttribute(5, "onclick", true);
                 builder.CloseComponent();
-            };
+            };*@
 }
 
-<TreeView Items="Items" GetParent="GetParent" AllowSelection="true" CheckboxTemplate="checkbox_template_radzen" />
 
 @code {
     private List<string> Items = new List<string>

@@ -1,16 +1,16 @@
 ﻿@page "/filter"
-<SourceCodeLink Repository="Blazor.TreeViews" Page="@nameof(FilterBy)" />
+@*<SourceCodeLink Repository="Blazor.TreeViews" Page="@nameof(FilterBy)" />*@
 
 Select what's filtered:
-<TreeView Items="Items" GetParent="(_) => null" AllowSelection="true" @bind-SelectedItems="SelectedValues" />
+<!--<TreeView Items="Items" GetParent="(_) => null" AllowSelection="true" @bind-SelectedItems="SelectedValues" />-->
 
 @code {
     private List<string> SelectedValues = new List<string>
-    {
+{
         "3.1.1"
     };
     private List<string> Items = new List<string>
-    {
+{
         "1",
         "1.1",
         "1.2",
@@ -35,4 +35,4 @@ Select what's filtered:
 }
 
 Remaining is:
-<TreeView Items="Items" GetParent="GetParent" FilterBy='(e) => e.Where(v => !SelectedValues.Contains(v))' />
+@*<TreeView Items="Items" GetParent="GetParent" FilterBy='(e) => e.Where(v => !SelectedValues.Contains(v))' />*@

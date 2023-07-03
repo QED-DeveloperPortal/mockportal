@@ -1,11 +1,11 @@
 ﻿@page "/selection"
 <SourceCodeLink Repository="Blazor.TreeViews" Page="@nameof(Selection)" />
 
-<TreeView @key="SelectedValues" Items="Items" GetParent="GetParent" AllowSelection="true" @bind-SelectedItems="SelectedValues">
+<!--<TreeView @key="SelectedValues" Items="Items" GetParent="GetParent" AllowSelection="true" @bind-SelectedItems="SelectedValues">
     <ItemTemplate>
         <div @onclick="() => { selectedItem = (selectedItem != context.Item) ? context.Item : null; }" style="background-color: @(selectedItem == context.Item ? "Highlight" : "inherit")">@context.Item</div>
     </ItemTemplate>
-</TreeView>
+</TreeView>-->
 
 @if (SelectedValues != null && SelectedValues.Any())
 {
@@ -52,11 +52,11 @@ else
 @code {
     private string selectedItem;
     private List<string> SelectedValues = new List<string>
-    {
+{
         "3.1.1"
     };
     private List<string> Items = new List<string>
-    {
+{
         "1",
         "1.1",
         "1.2",

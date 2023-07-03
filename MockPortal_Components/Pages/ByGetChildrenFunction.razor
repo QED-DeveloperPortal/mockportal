@@ -1,11 +1,11 @@
 ﻿@page "/get_children"
-<SourceCodeLink Repository="Blazor.TreeViews" Page="@nameof(ByGetChildrenFunction)" />
+@*<SourceCodeLink Repository="Blazor.TreeViews" Page="@nameof(ByGetChildrenFunction)" />*@
 
-<TreeView Items="Nested" GetChildren="(item) => item.Children">
-    <ItemTemplate>
-        @context.Item.Self
-    </ItemTemplate>
-</TreeView>
+@*<TreeView Items="Nested" GetChildren="(item) => item.Children">
+        <ItemTemplate>
+            @context.Item.Self
+        </ItemTemplate>
+    </TreeView>*@
 
 @code {
     private static readonly List<Item> AllItems = new List<Item>
@@ -14,7 +14,7 @@
         {
             Self = "1",
             Children = new List<Item>
-            {
+        {
                 new Item
                 {
                     Self = "1.1"
@@ -33,12 +33,12 @@
         {
             Self = "3",
             Children = new List<Item>
-            {
+        {
                 new Item
                 {
                     Self = "3.1",
                     Children = new List<Item>
-                    {
+                {
                         new Item
                         {
                             Self = "3.1.1"

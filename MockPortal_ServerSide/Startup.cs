@@ -26,6 +26,7 @@ namespace MockPortal_ServerSide
             _ = services.AddRazorPages();
             _ = services.AddServerSideBlazor();
             _ = services.AddMBServices();
+            //_ = services.AddControllersWithViews();
             _ = services.AddScoped((s) =>
             {
                 var uriHelper = s.GetRequiredService<NavigationManager>();
@@ -42,6 +43,7 @@ namespace MockPortal_ServerSide
             if (env.IsDevelopment())
             {
                 _ = app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
             }
             else
             {
@@ -51,14 +53,48 @@ namespace MockPortal_ServerSide
             }
 
             _ = app.UseHttpsRedirection();
-            _ = app.UseStaticFiles();
-
+            _ = app.UseStaticFiles("/mocks");
+            app.UsePathBase("/mocks");
             _ = app.UseRouting();
+
+            /*app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/"), app1 =>
+            {
+                app1.UseBlazorFrameworkFiles("/");
+                app1.UsePathBase("/");
+                app1.UseStaticFiles();
+                app1.UseRouting();
+                app1.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                    endpoints.MapFallbackToFile("{*path:nonfile}", "mocks/index.html");
+                });
+            });*/
+
+            app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/mocks"), app1 =>
+            {
+                app1.UseHttpsRedirection();
+                app1.UseBlazorFrameworkFiles("/mocks");
+                app1.UsePathBase("/mocks");
+                app1.UseStaticFiles("/mocks");
+                app1.UseRouting();
+                app1.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                    endpoints.MapFallbackToFile("mocks/{*path:nonfile}", "mocks/index.html");
+                });
+            });
+
+            // _ = app.UseBlazorFrameworkFiles("");
+
+            //_ = app.MapFallbackToFile("/index.html");
 
             _ = app.UseEndpoints(endpoints =>
             {
-                _ = endpoints.MapBlazorHub();
+                //_ = endpoints.MapBlazorHub();
+                //_ = endpoints.MapRazorPages();
                 _ = endpoints.MapFallbackToPage("/_Host");
+                //_ = endpoints.MapFallbackToFile("/index.html");
+                
             });
         }
     }
