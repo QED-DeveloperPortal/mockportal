@@ -43,6 +43,5 @@ jobs:
         commit_msg: '[GHA] Update mockportal files.'
     - name: Clean It up
       run: |
-        git config —-global --unset http.postBuffer
         git config —-local --unset http.postBuffer
         
