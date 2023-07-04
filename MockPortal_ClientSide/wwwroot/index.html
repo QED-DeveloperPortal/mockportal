@@ -13,8 +13,7 @@
         } else {
             base.href = '/mocks/';
         }
-        document.getElementsByTagName('head')[0].appendChild(base);
-    </script>
+        document.getElementsByTagName('head')[0].appendChild(base);</script>
     <!--<base href="/" />-->
     <link href="_content/MockPortal_Components/site.css" rel="stylesheet" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
@@ -28,6 +27,18 @@
     <script src="_content/Material.Blazor/material.blazor.min.js"></script>
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css">
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+
+    <script src="_content/BlazorMonaco/jsInterop.js"></script>
+    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/loader.js"></script>
+    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.js"></script>
+
+    <script src="js/decode.js"></script>
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
+
+    <script src="js/highlight.min.js"></script>
+    <script src="js/cshtml-razor.min.js"></script>
+
+    <script src="js/json-prettify-sample.js"></script>
 
     <!--<style>
         section.api-master-container {
@@ -313,13 +324,15 @@
         document.write("base.href:- <br/>");
         document.write(base.href);
     </script>-->
-    <script src="_content/BlazorMonaco/jsInterop.js"></script>
-    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/loader.js"></script>
-    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.js"></script>
-    <!--<script src="_framework/blazor.webassembly.js"></script>-->
 
-    <script src="js/decode.js"></script>
-    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
+    <!--<script src="_content/BlazorMonaco/jsInterop.js"></script>
+    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/loader.js"></script>
+    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.js"></script>-->
+
+
+    <!--<script src="_framework/blazor.webassembly.js"></script>-->
+    <!--<script src="js/decode.js"></script>
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>-->
     <script>Blazor.start({
             loadBootResource: function (type, name, defaultUri, integrity) {
                 // For framework resources, use the precompressed .br files for faster downloads
@@ -339,11 +352,11 @@
                 }
             }
         });</script>
-    <script src="js/highlight.min.js"></script>
-    <script src="js/cshtml-razor.min.js"></script>
+    <!--<script src="js/highlight.min.js"></script>
+    <script src="js/cshtml-razor.min.js"></script>-->
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    <script src="js/json-prettify-sample.js"></script>
+    <!--<script src="js/json-prettify-sample.js"></script>-->
 
 </body>
 
