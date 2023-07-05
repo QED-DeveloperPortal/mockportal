@@ -13,7 +13,7 @@ namespace MockPortal_Components
         public const string UrlPrefix = "/mocks"; // <= for azure deployment to inside of qed-developerportal
                                       //            = ""; // <= for localhost
 
-        public const string IndexPageUrl = UrlPrefix + "/";
+        public const string IndexPageUrl = "/mocks/";
         public const string ApiProductsPageUrl = UrlPrefix + "/apiproducts";
         public const string ApiProductMethodsPageUrl = UrlPrefix + "/apiproductmethods/{groupcode}";
         public const string ApiProductMethodTestPageUrl = UrlPrefix + "/apiproductmethodtest/{groupcode}/{id}";
