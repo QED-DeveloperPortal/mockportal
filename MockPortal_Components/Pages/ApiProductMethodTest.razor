@@ -17,7 +17,7 @@
     <section class="api-master-container">
         <div class="api-header-block">
             @* <a href='@string.Format("/apiproductmethods/{0}", groupcode)' class="api-header-nav-link"> *@
-            <a href="@($"/apiproductmethods/{groupcode}")" class="api-header-nav-link">
+            <a href="@($"{Constants.UrlPrefix}/apiproductmethods/{groupcode}")" class="api-header-nav-link">
                 <i class="fas fa-chevron-left"></i>
             </a>
             <h1 class="block-header">@appCatalogMethod.DomainName</h1>

@@ -20,7 +20,7 @@
         <h1 class="block-header">@(appCatalogGroups.Count == 0 ? "" : appCatalogGroups[0].GroupName)</h1>
     </div> *@
 <div class="api-header-block">
-    <a href="/apiproducts" class="api-header-nav-link">
+    <a href="@($"{Constants.UrlPrefix}/apiproducts")" class="api-header-nav-link">
         <i class="fas fa-chevron-left"></i>
     </a>
     <h4 class="block-header">@groupName</h4>
