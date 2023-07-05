@@ -321,12 +321,12 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <!--<script type="text/javascript">document.write("location.pathname:- <br/>");
+    <script type="text/javascript">document.write("location.pathname:- <br/>");
         document.write(window.location.href);
         document.write("<br/>");
         document.write("base.href:- <br/>");
         document.write(base.href);
-    </script>-->
+    </script>
 
     <!--<script src="_content/BlazorMonaco/jsInterop.js"></script>
     <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/loader.js"></script>
@@ -340,7 +340,7 @@
             loadBootResource: function (type, name, defaultUri, integrity) {
                 // For framework resources, use the precompressed .br files for faster downloads
                 // This is needed only because GitHub pages doesn't natively support Brotli (or even gzip for .dll files)
-                /*if (type !== 'dotnetjs' && location.hostname !== 'localhost') {
+                if (type !== 'dotnetjs' && location.hostname !== 'localhost') {
                     return (async function () {
                         const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
                         if (!response.ok) {
@@ -352,7 +352,7 @@
                         const contentType = type === 'dotnetwasm' ? 'application/wasm' : 'application/octet-stream';
                         return new Response(decompressedResponseArray, { headers: { 'content-type': contentType } });
                     })();
-                }*/
+                }
             }
         });</script>
     <!--<script src="js/highlight.min.js"></script>
