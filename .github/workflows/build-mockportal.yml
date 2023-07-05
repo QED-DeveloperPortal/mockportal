@@ -24,7 +24,7 @@ jobs:
     - name: Build and publish
       run: |
         dotnet build /home/runner/work/mockportal/mockportal/MockPortal_ClientSide/MockPortal_ClientSide.csproj -c Release
-        dotnet publish /home/runner/work/mockportal/mockportal/MockPortal_ClientSide/MockPortal_ClientSide.csproj -c Release -o ./publish -f net7.0
+        dotnet publish /home/runner/work/mockportal/mockportal/MockPortal_ClientSide/MockPortal_ClientSide.csproj -c Release -o ./publish -f net7.0 -p:BlazorEnableCompression=false
         git config http.postBuffer 524288000
         git config --show-origin --get-all http.postBuffer
     - name: ListFolderContents
