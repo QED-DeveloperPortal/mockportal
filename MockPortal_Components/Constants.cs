@@ -10,7 +10,13 @@ namespace MockPortal_Components
         public const string ApiBaseUrl = "https://mockaco.azurewebsites.net/";
          // = "http://localhost:5010/";
 
-        public const string UrlPrefix //= "/mocks"; // <= for azure deployment to inside of qed-developerportal
-             = ""; // <= for localhost
+        public const string UrlPrefix = "/mocks"; // <= for azure deployment to inside of qed-developerportal
+                                      //            = ""; // <= for localhost
+
+        public const string IndexPageUrl = UrlPrefix + "/";
+        public const string ApiProductsPageUrl = UrlPrefix + "/apiproducts";
+        public const string ApiProductMethodsPageUrl = UrlPrefix + "/apiproductmethods/{groupcode}";
+        public const string ApiProductMethodTestPageUrl = UrlPrefix + "/apiproductmethodtest/{groupcode}/{id}";
+
     }
 }
