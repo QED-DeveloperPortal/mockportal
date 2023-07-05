@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="private, no-store" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>MockPortal demo (MockPortal ClientSide)</title>
-    <script type="text/javascript">var base = document.createElement('base');
+    <!--<script type="text/javascript">var base = document.createElement('base');
         var currentUrl = window.location.href;
         var localHostUrl = 'https://localhost';
         if (currentUrl.startsWith(localHostUrl)) {
@@ -13,8 +13,8 @@
         } else {
             base.href = '/mocks/';
         }
-        document.getElementsByTagName('head')[0].appendChild(base);</script>
-    <!--<base href="/" />-->
+        document.getElementsByTagName('head')[0].appendChild(base);</script>-->
+    <base href="/mocks/" />
     <link href="_content/MockPortal_Components/site.css" rel="stylesheet" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
@@ -321,11 +321,11 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <script type="text/javascript">document.write("location.pathname:- <br/>");
+    <!--<script type="text/javascript">document.write("location.pathname:- <br/>");
         document.write(window.location.href);
         document.write("<br/>");
         document.write("base.href:- <br/>");
-        document.write(base.href);</script>
+        document.write(base.href);</script>-->
 
     <!--<script src="_content/BlazorMonaco/jsInterop.js"></script>
     <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/loader.js"></script>
