@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-// using Blazored.Modal;
 
 using Microsoft.AspNetCore.Components.Web;
 using System.Runtime.InteropServices.JavaScript;
@@ -21,15 +20,10 @@ namespace MockPortal_ClientSide
             builder.RootComponents.Add<App>("app");
             //builder.RootComponents.Add<HeadOutlet>("head::after");
             _ = builder.Services.AddMBServices();
-            // _ = builder.Services.AddBlazoredModal();
-            //Console.WriteLine($"RC Count = {builder.RootComponents.Count}");
 
             _ = builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            //_ = builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             await builder.Build().RunAsync();
-
-            
         }
     }
 }

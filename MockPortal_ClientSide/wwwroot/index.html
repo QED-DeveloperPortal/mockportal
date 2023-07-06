@@ -27,290 +27,6 @@
     <script src="_content/Material.Blazor/material.blazor.min.js"></script>
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/default-base.css">
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
-
-    <!--<script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-
-    <script src="js/highlight.min.js"></script>
-    <script src="js/cshtml-razor.min.js"></script>
-    <script src="js/json-prettify-sample.js"></script>
-
-    <script src="_content/BlazorMonaco/jsInterop.js"></script>
-    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/loader.js"></script>
-    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.js"></script>-->
-
-    <!--<script src="js/decode.js"></script>
-    <script src="_framework/blazor.webassembly.js"></script>-->
-
-    <!--<style>
-        section.api-master-container {
-            padding: 32px;
-            padding-top: 8px;
-            width: 800px;
-        }
-
-        article.api-key-container {
-            background-color: #eee;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 32px;
-        }
-
-        h3.api-key-header {
-            margin-bottom: 0;
-            margin-top: 0;
-            font-size: 16px;
-            color: #777;
-        }
-
-        .api-key-value {
-            margin-top: 8px;
-            margin-bottom: 8px;
-        }
-
-        .api-key-value-container {
-            display: flex;
-        }
-
-        .api-kv-key {
-            margin-right: 16px;
-        }
-
-        h2.api-header {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        h3.api-header {
-            border-bottom: 2px solid #ccc;
-            margin-bottom: 8px;
-        }
-
-        article.api-container {
-            display: flex;
-            margin-bottom: 8px;
-        }
-
-        .api-detail-container {
-            padding-top: 4px;
-        }
-
-        .api-name {
-            font-family: Open sans;
-            font-weight: 600;
-        }
-
-        .api-description {
-            font-family: Open sans;
-            font-size: 12px;
-            color: #555;
-        }
-
-        .api-link-container {
-            margin-left: auto;
-            width: 48px;
-            text-align: center;
-        }
-
-        .api-nav-link {
-            display: inline-block;
-            width:48px;
-            height: 48px;
-            font-size: 24px;
-        }
-
-        .tag-get {
-            background-color: cornflowerblue !important;
-            color: white !important;
-            min-width: 72px;
-        }
-
-        .tag-put {
-            background-color: #EEA44A !important;
-            color: white !important;
-            min-width: 72px;
-        }
-
-        .tag-post {
-            background-color: #73C895 !important;
-            color: white !important;
-            min-width: 72px;
-        }
-
-        .app-cat-container {
-            position: relative;
-            display: flex;
-            margin-bottom: 32px;
-        }
-
-        .app-cat-avatar {
-            display: inline-flex;
-            min-width: 56px;
-            margin-right: 28px;
-            color: #fff;
-            font-size: 32px;
-            padding: 16px;
-            height: 56px;
-            width: 56px;
-            border-radius: 28px;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .app-cat-overlay {
-            position: absolute;
-            bottom: 4px;
-            left: 14px;
-            text-align: center;
-            background-color: #C14520;
-            color: #fff;
-            border: 1px solid #fff;
-            font-size: 12px;
-            min-width: 48px;
-            margin-bottom: 8px;
-            margin-right: 8px;
-            padding: 0 8px 4px 8px;
-            height: 32px;
-            line-height: 32px;
-            border-radius: 16px;
-            z-index: 5;
-        }
-
-        .app-cat-detail-container {
-            padding-top: 16px;
-        }
-
-        .app-cat-name {
-            font-family: Open sans;
-            font-size: 18px;
-        }
-
-        .app-cat-description {
-            font-size: 14px;
-        }
-
-        .api-header-block {
-            display: flex;
-            border-bottom: 2px solid #ccc;
-            margin-bottom: 16px;
-        }
-
-        a.api-header-nav-link {
-            height: 80px;
-            width: 80px;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 80px;
-            font-size: 32px;
-        }
-
-        h1.block-header {
-            margin-top: 12px;
-            margin-bottom: 0;
-        }
-
-        .api-block {
-            display: flex;
-            margin-bottom: 16px;
-        }
-
-        .api-link {
-            font-size: 20px;
-            color: #4070E6;
-        }
-
-        code {
-            display: block;
-            font-family: Consolas, Monaco, Lucida Console;
-            padding: 8px;
-            margin-bottom: 32px;
-            width: 100%;
-            min-height: 200px;
-        }
-
-        code.api-model-input {
-            background-color: #333333;
-        }
-
-        code.api-model-response {
-            background-color: #F2F2F2;
-        }
-
-        input.api-request-input {
-            display: block;
-            width: 280px;
-            margin-bottom: 8px;
-            line-height: 22px;
-            padding: 4px;
-        }
-
-        .request-label {
-            margin-bottom: 16px;
-        }
-
-        .btn-container {
-            display: block;
-            width: 100%;
-            margin-bottom: 48px;
-        }
-
-        button.btn-active {
-            background-color: #4070E6;
-            min-width: 160px;
-            margin-bottom: 16px;
-            color: #fff;
-            border: none;
-            padding-bottom: 6px;
-            padding-top: 6px;
-            padding-left: 32px;
-            padding-right: 32px;
-            border-radius: 6px;
-        }
-
-        .icon-suffix {
-            margin-left: 12px;
-        }
-
-        .dev-link-container {
-            width: 504px;
-        }
-
-        .alert {
-            color: red;
-            margin-left: 4px;
-        }
-
-        /* JSON prettify styles */
-        .json-key {
-            color: #C14520;
-        }
-        .json-value {
-            color: #4070E6;
-        }
-        .json-string {
-            color: olive;
-        }
-
-        @media screen and (max-width: 576px) {
-            section.api-master-container,
-            .dev-link-container,
-            input.api-request-input {
-                width: 100%;
-            }
-
-            .api-link {
-                font-size: inherit;
-                margin-top: 4px;
-            }
-
-            .api-key-value,
-            .api-kv-key,
-            .api-kv-value {
-                font-size: 12px;
-            }
-        }
-    </style>-->
 </head>
 
 <body>
@@ -321,11 +37,12 @@
         <a class="dismiss">🗙</a>
     </div>
 
-    <script type="text/javascript">document.write("location.pathname:- <br/>");
+    <!--Debug text that can probably be deleted-->
+    <!--<script type="text/javascript">document.write("location.pathname:- <br/>");
         document.write(window.location.href);
         document.write("<br/>");
         document.write("base.href:- <br/>");
-        document.write(base.href);</script>
+        document.write(base.href);</script>-->
 
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
@@ -343,13 +60,6 @@
 
     <script src="js/json-prettify-sample.js"></script>
 
-
-    <!--<script src="_content/BlazorMonaco/jsInterop.js"></script>
-    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/loader.js"></script>
-    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.js"></script>-->
-    <!--<script src="_framework/blazor.webassembly.js"></script>-->
-    <!--<script src="js/decode.js"></script>
-    <script src="_framework/blazor.webassembly.js" autostart="false"></script>-->
     <!--<script>Blazor.start({
             loadBootResource: function (type, name, defaultUri, integrity) {
                 // For framework resources, use the precompressed .br files for faster downloads
@@ -369,12 +79,6 @@
                 }
             }
         });</script>-->
-    <!--<script src="js/highlight.min.js"></script>
-    <script src="js/cshtml-razor.min.js"></script>
-    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    <script src="js/json-prettify-sample.js"></script>-->
-
 </body>
 
 </html>
