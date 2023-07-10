@@ -40,7 +40,7 @@
                 currentDomainName = @method.DomainName;
             }
             <article class="api-container">
-                <div class="page-taxonomy tag-@method.MethodType.ToLower()" title="@method.MethodType" rel="tag">@method.MethodType</div>
+                <div class="page-taxonomy tag-@method.MethodType.ToLower()" title="@method.MethodType" rel="tag"><a onclick=@(() => OpenApiProductMethodTest(method.Id))>@method.MethodType</a></div>
                 <div class="api-detail-container">
                     <div class="api-name"><a onclick=@(() => OpenApiProductMethodTest(method.Id))>@(method.MethodPrefix + method.Method)</a></div>
                     <div class="api-description">@method.MethodDescription</div>
