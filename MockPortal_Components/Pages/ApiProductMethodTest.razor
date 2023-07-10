@@ -172,7 +172,6 @@
         await GetAppCatalogMethod(id);
         await GetModel(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
         await GetMethodParameters(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
-        await GetResponseLayout();
         //await GetResponse(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
 
         initialised = true;
@@ -221,7 +220,7 @@
         }
     }
 
-    private async Task GetModel(string groupCode, string domainName, string method)
+    /*private async Task GetModel(string groupCode, string domainName, string method)
     {
         try
         {
@@ -251,7 +250,7 @@
             _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in GetModel: {ex.Message}");
         }
-    }
+    }*/
 
     private async Task GetMethodParameters(string groupCode, string domainName, string method)
     {
@@ -300,28 +299,28 @@
         }
     }
 
-    private async Task GetResponseLayout()
+    private async Task GetModel(string groupCode, string domainName, string method)
     {
         try
         {
-            Console.WriteLine($"GetResponseLayout groupCode:{groupcode} DomainName: {appCatalogMethod.DomainName} Method:{appCatalogMethod.Method}");
+            Console.WriteLine($"GetModel groupCode:{groupcode} DomainName: {appCatalogMethod.DomainName} Method:{appCatalogMethod.Method}");
 
             using var apiResponse = await Http.GetAsync(
-                $"{Constants.ApiBaseUrl}__getresponselayout?groupCode={groupcode}&domainName={appCatalogMethod.DomainName}&method={appCatalogMethod.Method}");
+                $"{Constants.ApiBaseUrl}__getmodel?groupCode={groupcode}&domainName={appCatalogMethod.DomainName}&method={appCatalogMethod.Method}");
 
-            Console.WriteLine($"GetResponseLayout apiResponse {apiResponse.StatusCode}");
+            Console.WriteLine($"GetModel apiResponse {apiResponse.StatusCode}");
             responseLayout = await apiResponse.Content.ReadAsStringAsync();
             if (responseLayout == null)
             {
-                Console.WriteLine("No Response Layout Found");
+                Console.WriteLine("No Model Found");
             }
             else
-                Console.WriteLine($"RESPONSE LAYOUT: {response}");
+                Console.WriteLine($"MODEL: {response}");
         }
         catch (Exception ex)
         {
             _errorMessage = $"Error: {ex.Message}";
-            Console.WriteLine($"Exception in GetResponseLayout: {ex.Message}");
+            Console.WriteLine($"Exception in GetModel: {ex.Message}");
         }
     }
 
