@@ -13,4 +13,10 @@
     <ProjectReference Include="..\BlazorMonaco\BlazorMonaco.csproj" />
     <!--<ProjectReference Include="..\TreeView\Blazor.TreeView.csproj" />-->
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="DataTypes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataTypes\" />
+  </ItemGroup>
 </Project>

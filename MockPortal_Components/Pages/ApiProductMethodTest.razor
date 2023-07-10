@@ -7,6 +7,7 @@
 @using System.IO;
 @using System.Text.Json;
 @using System.Text.Json.Nodes;
+@using MockPortal_Components.DataTypes; 
 @inject HttpClient Http
 @inject IJSRuntime JS
 @implements IAsyncDisposable
@@ -30,22 +31,27 @@
 
         <h2 class="api-header">Request</h2>
 
-        @foreach (var qp in queryParameters)
+        @foreach (var methodParameter in methodParameters)
         {
             <div class="request-label">
-                <span>@qp</span>
-                <span role="alert" class="alert">Required</span>
+                <span>@methodParameter.Name</span>
+                <span role="alert" class="alert">@(methodParameter.Required ? "Required" : "")</span>
+                <span>@(methodParameter.Description)</span>
             </div>
             <input type="text" class="api-request-input" />
         }
 
         <div class="btn-container">
-            <button class="btn-active" style="float: right;">Execute</button>
+            <button class="btn-active" style="float: right;" onclick=@(async () => await ExecuteRequest())>Execute</button>
         </div>
 
         <h2 class="api-header">Response</h2>
         <pre>
         <code id="api-response" class="api-model-response">@response</code>
+        </pre>
+        <h2 class="api-header">Response Layout</h2>
+        <pre>
+        <code id="api-response-layout" class="api-model-response">@responseLayout</code>
         </pre>
     </section>
 </div>
@@ -60,8 +66,9 @@
 
     AppCatalogMethod appCatalogMethod = new AppCatalogMethod();
     string model = "";
-    List<string> queryParameters = new List<string>();
+    List<MethodParameter> methodParameters = new List<MethodParameter>();
     string response = "";
+    string responseLayout = "";
 
     private string selectedItem;
 
@@ -164,7 +171,8 @@
 
         await GetAppCatalogMethod(id);
         await GetModel(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
-        await GetQueryParameters(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
+        await GetMethodParameters(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
+        await GetResponseLayout();
         //await GetResponse(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
 
         initialised = true;
@@ -221,13 +229,22 @@
 
             using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getmodel?groupCode={groupcode}&domainName={domainName}&method={method}");
             Console.WriteLine($"GetModel response {response.StatusCode}");
-            model = await response.Content.ReadAsStringAsync();
-            if (appCatalogMethod == null)
+            var modelParameters = await response.Content.ReadFromJsonAsync<List<MethodParameter>>();
+            var parameters = "{" + Constants.NewLine;
+            if (modelParameters == null)
             {
                 Console.WriteLine("No Model Found");
             }
             else
-                Console.WriteLine($"MODEL: {model}");
+            {
+                foreach (var p in modelParameters)
+                {
+                    parameters += $"  {p.Name} : {p.DataType}" + Constants.NewLine;
+                }
+
+                parameters += "}" + Constants.NewLine;
+            }
+            model = parameters;
         }
         catch (Exception ex)
         {
@@ -236,30 +253,37 @@
         }
     }
 
-    private async Task GetQueryParameters(string groupCode, string domainName, string method)
+    private async Task GetMethodParameters(string groupCode, string domainName, string method)
     {
         try
         {
-            Console.WriteLine($"GetQueryParameters groupCode:{groupcode} DomainName: {domainName} Method:{method}");
+            Console.WriteLine($"GetMethodParameters groupCode:{groupcode} DomainName: {domainName} Method:{method}");
 
-            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getqueryparameters?groupCode={groupcode}&domainName={domainName}&method={method}");
-            Console.WriteLine($"GetQueryParameters response {response.StatusCode}");
-            queryParameters = await response.Content.ReadFromJsonAsync<List<string>>();
+            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getmethodparameters?groupCode={groupcode}&domainName={domainName}&method={method}");
+            Console.WriteLine($"GetMethodParameters response {response.StatusCode}");
+            methodParameters = await response.Content.ReadFromJsonAsync<List<MethodParameter>>();
         }
         catch (Exception ex)
         {
             _errorMessage = $"Error: {ex.Message}";
-            Console.WriteLine($"Exception in GetQueryParameters: {ex.Message}");
+            Console.WriteLine($"Exception in GetMethodParameters: {ex.Message}");
         }
     }
 
-    private async Task GetResponse(string groupCode, string domainName, string method)
+    private async Task ExecuteRequest()
+    {
+        await GetResponse();
+    }
+
+    private async Task GetResponse()
     {
         try
         {
-            Console.WriteLine($"GetResponse groupCode:{groupcode} DomainName: {domainName} Method:{method}");
+            Console.WriteLine($"GetResponse groupCode:{groupcode} DomainName: {appCatalogMethod.DomainName} Method:{appCatalogMethod.Method}");
 
-            using var apiResponse = await Http.GetAsync($"{Constants.ApiBaseUrl}__getresponse?groupCode={groupcode}&domainName={domainName}&method={method}");
+            using var apiResponse = await Http.GetAsync(
+                $"{Constants.ApiBaseUrl}__getresponse?groupCode={groupcode}&domainName={appCatalogMethod.DomainName}&method={appCatalogMethod.Method}");
+
             Console.WriteLine($"GetResponse apiResponse {apiResponse.StatusCode}");
             response = await apiResponse.Content.ReadAsStringAsync();
             if (appCatalogMethod == null)
@@ -273,6 +297,31 @@
         {
             _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in GetResponse: {ex.Message}");
+        }
+    }
+
+    private async Task GetResponseLayout()
+    {
+        try
+        {
+            Console.WriteLine($"GetResponseLayout groupCode:{groupcode} DomainName: {appCatalogMethod.DomainName} Method:{appCatalogMethod.Method}");
+
+            using var apiResponse = await Http.GetAsync(
+                $"{Constants.ApiBaseUrl}__getresponselayout?groupCode={groupcode}&domainName={appCatalogMethod.DomainName}&method={appCatalogMethod.Method}");
+
+            Console.WriteLine($"GetResponseLayout apiResponse {apiResponse.StatusCode}");
+            responseLayout = await apiResponse.Content.ReadAsStringAsync();
+            if (responseLayout == null)
+            {
+                Console.WriteLine("No Response Layout Found");
+            }
+            else
+                Console.WriteLine($"RESPONSE LAYOUT: {response}");
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error: {ex.Message}";
+            Console.WriteLine($"Exception in GetResponseLayout: {ex.Message}");
         }
     }
 
