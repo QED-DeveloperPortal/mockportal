@@ -49,10 +49,10 @@
         <pre>
         <code id="api-response" class="api-model-response">@response</code>
         </pre>
-        <h2 class="api-header">Response Layout</h2>
-        <pre>
-        <code id="api-response-layout" class="api-model-response">@responseLayout</code>
-        </pre>
+        <!--<h2 class="api-header">Response Layout</h2>
+    <pre>
+    <code id="api-response-layout" class="api-model-response">@responseLayout</code>
+    </pre>-->
     </section>
 </div>
 
@@ -309,8 +309,8 @@
                 $"{Constants.ApiBaseUrl}__getmodel?groupCode={groupcode}&domainName={appCatalogMethod.DomainName}&method={appCatalogMethod.Method}");
 
             Console.WriteLine($"GetModel apiResponse {apiResponse.StatusCode}");
-            responseLayout = await apiResponse.Content.ReadAsStringAsync();
-            if (responseLayout == null)
+            model = await apiResponse.Content.ReadAsStringAsync();
+            if (model == null)
             {
                 Console.WriteLine("No Model Found");
             }
