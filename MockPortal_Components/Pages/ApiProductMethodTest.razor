@@ -29,6 +29,18 @@
         <code id="api-input" class="api-model-input">@model</code>
         </pre>
 
+        @if (@appCatalogMethod.MethodType == "POST")
+        {
+            <h2 class="api-header">Request Body Model</h2>
+            <pre>
+            <code id="api-input-request-body-model" class="api-model-input">@requestBodyModel</code>
+            </pre>
+
+            <h2 class="api-header">Request Body Content</h2>
+            <pre>
+            <code id="api-input-request-body" class="api-model-input">@requestBody</code>
+            </pre>
+        }
         <h2 class="api-header">Request</h2>
 
         @foreach (var methodParameter in methodParameters)
@@ -66,6 +78,8 @@
 
     AppCatalogMethod appCatalogMethod = new AppCatalogMethod();
     string model = "";
+    string requestBody = "";
+    string requestBodyModel = "";
     List<MethodParameter> methodParameters = new List<MethodParameter>();
     string response = "";
     string responseLayout = "";
@@ -172,6 +186,12 @@
         await GetAppCatalogMethod(id);
         await GetModel(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
         await GetMethodParameters(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
+
+        if (appCatalogMethod.MethodType.ToLowerInvariant() == "post")
+        {
+            await GetRequestBodyModel(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
+            await GetRequestBodyExample(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
+        }
         //await GetResponse(groupcode, appCatalogMethod.DomainName, appCatalogMethod.Method);
 
         initialised = true;
@@ -266,6 +286,60 @@
         {
             _errorMessage = $"Error: {ex.Message}";
             Console.WriteLine($"Exception in GetMethodParameters: {ex.Message}");
+        }
+    }
+
+    private async Task GetRequestBodyModel(string groupCode, string domainName, string method)
+    {
+        try
+        {
+            Console.WriteLine($"GetRequestBodyModel groupCode:{groupcode} DomainName: {domainName} Method:{method}");
+
+            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getrequestbodymodel?groupCode={groupcode}&domainName={domainName}&method={method}");
+            Console.WriteLine($"GetRequestBodyModel response {response.StatusCode}");
+            requestBodyModel = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"requestBodyModel: {requestBodyModel}");
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error: {ex.Message}";
+            Console.WriteLine($"Exception in GetRequestBodyModel: {ex.Message}");
+        }
+    }
+
+    private async Task GetRequestBodyExample(string groupCode, string domainName, string method)
+    {
+        try
+        {
+            Console.WriteLine($"GetRequestBodyExample groupCode:{groupcode} DomainName: {domainName} Method:{method}");
+
+            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getrequestbodyexample?groupCode={groupcode}&domainName={domainName}&method={method}");
+            Console.WriteLine($"GetRequestBodyExample response {response.StatusCode}");
+            requestBody = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"requestBodyExample: {requestBody}");
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error: {ex.Message}";
+            Console.WriteLine($"Exception in GetRequestBodyExample: {ex.Message}");
+        }
+    }
+
+    private async Task GetRequestBodyTemplate(string groupCode, string domainName, string method)
+    {
+        try
+        {
+            Console.WriteLine($"GetRequestBodyTemplate groupCode:{groupcode} DomainName: {domainName} Method:{method}");
+
+            using var response = await Http.GetAsync($"{Constants.ApiBaseUrl}__getrequestbodytemplate?groupCode={groupcode}&domainName={domainName}&method={method}");
+            Console.WriteLine($"GetRequestBodyTemplate response {response.StatusCode}");
+            requestBody = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"requestBodyExample: {requestBody}");
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error: {ex.Message}";
+            Console.WriteLine($"Exception in GetRequestBodyTemplate: {ex.Message}");
         }
     }
 
